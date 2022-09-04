@@ -1,0 +1,10 @@
+lab5
+lab5.IO
+lab5.app
+lab5.collection
+lab5.commands
+lab5.exceptions.collection_exceptions
+lab5.exceptions.factory_exceptions
+lab5.exceptions.file_exceptions
+lab5.movie_classes
+lab5.movie_classes.enums
