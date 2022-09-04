@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="xGodness">
+    <meta http-equiv="refresh" content="-0">
+    <title>Assignment #1</title>
+</head>
+
+<style>
+    body {
+        color: white;
+        background-color: #735184;
+        font-family: sans-serif;
+        align-items: center;
+    }
+    #page-header {
+        text-align: center;
+    }
+    #canvas-container {
+        text-align: center;
+    }
+    #input-y, #input-r {
+        background-color: antiquewhite;
+        border-color: wheat;
+    }
+    #input-container {
+        margin-top: 40px;
+        text-align: center;
+    }
+    .input-field {
+        text-align: left;
+        vertical-align: top;
+        display: inline-block;
+    }
+</style>
+
+<body>
+    <div id="page-header">
+        <h1>ASS</h1>
+        <hr>
+    </div>
+
+    <div id="canvas-container">
+        <canvas id="canvas" width="400" height="400" style="border: 3px solid black; margin-top: 50px"></canvas>
+    </div>
+
+    <script src="javascript/graph.js"></script>
+
+    <div id="input-container">
+
+        <fieldset id="input-x-fieldset" class="input-field">
+            <legend><b>Parameter X:</b></legend>
+            <div>
+                <input type="radio" id="input-x-neg-3" name="input-x-ans" value="-3" size="10">
+                <label for="input-x-neg-3">-3</label>
+            </div>
+            <div>
+                <input type="radio" id="input-x-neg-2" name="input-x-ans" value="-2" size="10">
+                <label for="input-x-neg-2">-2</label>
+            </div>
+            <div>
+                <input type="radio" id="input-x-neg-1" name="input-x-ans" value="-1" size="10">
+                <label for="input-x-neg-1">-1</label>
+            </div>
+            <div>
+                <input type="radio" id="input-x-0" name="input-x-ans" value="0" size="10">
+                <label for="input-x-0">0</label>
+            </div>
+            <div>
+                <input type="radio" id="input-x-1" name="input-x-ans" value="1" size="10">
+                <label for="input-x-1">1</label>
+            </div>
+            <div>
+                <input type="radio" id="input-x-2" name="input-x-ans" value="2" size="10">
+                <label for="input-x-2">2</label>
+            </div>
+            <div>
+                <input type="radio" id="input-x-3" name="input-x-ans" value="3" size="10">
+                <label for="input-x-3">3</label>
+            </div>
+            <div>
+                <input type="radio" id="input-x-4" name="input-x-ans" value="4" size="10">
+                <label for="input-x-4">4</label>
+            </div>
+            <div>
+                <input type="radio" id="input-x-5" name="input-x-ans" value="5" size="10">
+                <label for="input-x-5">5</label>
+            </div>
+        </fieldset>
+
+        <fieldset id="input-y-fieldset" class="input-field">
+            <legend><b>Parameter Y:</b></legend>
+            <input type="text" id="input-y" size="10">
+        </fieldset>
+
+        <fieldset id="input-r-fieldset" class="input-field">
+            <legend><b>Parameter R:</b></legend>
+            <input type="text" id="input-r" size="10">
+        </fieldset>
+
+    </div>
+
+</body>
+
+</html>
