@@ -1,0 +1,20 @@
+---
+- Monday: 
+ - discipline: Дискретная математика (практика)
+   lecturer: Поляков Владимир Иванович
+   start_time: '11:40'
+   end_time: '13:10'
+   place: Кронверкский пр. д.49 лит.А
+   lecture_room: 369А
+   week_parity: четная неделя
+   studying_format: Очно - дистанционный
+ - discipline: Дискретная математика (практика)
+   lecturer: Поляков Владимир Иванович
+   start_time: '13:30'
+   end_time: '15:00'
+   place: Кронверкский пр. д.49 лит.А
+   lecture_room: 369А
+   week_parity: четная неделя
+   studying_format: Очно - дистанционный
+  
+  
