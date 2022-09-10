@@ -2,23 +2,29 @@ window.onload = function () {
     draw();
 };
 
-function draw() {
+function draw(new_r, point_x, point_y) {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
 
     const black = "black";
     const aquamarine = "aquamarine";
+    const point_colour = "#ff947f";
 
     let w = canvas.width;
     let h = canvas.height;
-    let centerW = w / 2;
-    let centerH = h / 2;
-    let centerX = centerW;
-    let centerY = centerH;
-    let tickX = w / 12;
-    let tickY = h / 12;
+    let center_w = w / 2;
+    let center_h = h / 2;
+    let center_x = center_w;
+    let center_y = center_h;
+    let tick_x = w / 12;
+    let tick_y = h / 12;
 
     let r = 4;
+    if (new_r != null) {
+        r = new_r;
+    }
+
+    ctx.clearRect(0, 0, w, h);
 
 
     // drawing properties
@@ -28,51 +34,60 @@ function draw() {
 
     // draw first quarter
     ctx.beginPath();
-    ctx.arc(centerX, centerY, r * tickY, - Math.PI / 2, 0);
-    ctx.lineTo(centerX, centerY);
-    ctx.lineTo(centerX, centerY - r * tickY);
+    ctx.arc(center_x, center_y, r * tick_y, - Math.PI / 2, 0);
+    ctx.lineTo(center_x, center_y);
+    ctx.lineTo(center_x, center_y - r * tick_y);
     ctx.fill()
     ctx.closePath();
 
     // draw second quarter
     ctx.beginPath();
-    ctx.moveTo(centerX, centerY - r * tickY / 2);
-    ctx.lineTo(centerX - r * tickX / 2, centerY);
-    ctx.lineTo(centerX, centerY);
-    ctx.lineTo(centerX, centerY - r * tickY / 2);
+    ctx.moveTo(center_x, center_y - r * tick_y / 2);
+    ctx.lineTo(center_x - r * tick_x / 2, center_y);
+    ctx.lineTo(center_x, center_y);
+    ctx.lineTo(center_x, center_y - r * tick_y / 2);
     ctx.fill();
     ctx.closePath();
 
     // draw fourth quarter
     ctx.beginPath();
-    ctx.fillRect(centerX, centerY, r * tickX, r * tickY / 2);
+    ctx.fillRect(center_x, center_y, r * tick_x, r * tick_y / 2);
     ctx.closePath();
 
     // draw x axis
     ctx.beginPath();
-    ctx.moveTo(0, centerH);
-    ctx.lineTo(w, centerH);
+    ctx.moveTo(0, center_h);
+    ctx.lineTo(w, center_h);
     ctx.stroke();
     ctx.closePath();
 
     // draw y axis
     ctx.beginPath();
-    ctx.moveTo(centerW, 0);
-    ctx.lineTo(centerW, h);
+    ctx.moveTo(center_w, 0);
+    ctx.lineTo(center_w, h);
     ctx.stroke();
     ctx.closePath();
 
     // draw tick marks
     ctx.beginPath();
     for (let i = -6; i < 7; i++) {
-        let dx = centerX + i * tickX;
-        let dy = centerY + i * tickY;
-        ctx.moveTo(dx, centerY + 3);
-        ctx.lineTo(dx, centerY - 3);
-        ctx.moveTo(centerX + 3, dy);
-        ctx.lineTo(centerX - 3, dy);
+        let dx = center_x + i * tick_x;
+        let dy = center_y + i * tick_y;
+        ctx.moveTo(dx, center_y + 3);
+        ctx.lineTo(dx, center_y - 3);
+        ctx.moveTo(center_x + 3, dy);
+        ctx.lineTo(center_x - 3, dy);
     }
     ctx.stroke();
+    ctx.closePath();
+
+    // draw user point
+    ctx.beginPath();
+    ctx.strokeStyle = point_colour;
+    ctx.fillStyle = point_colour;
+    ctx.arc(center_x + point_x * tick_x, center_y + point_y * tick_y, 4, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.fill();
     ctx.closePath();
 
 }

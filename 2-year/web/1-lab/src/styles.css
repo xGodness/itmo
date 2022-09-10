@@ -25,15 +25,11 @@ hr {
 #message-fieldset {
     min-height: 20px;
     margin-top: 10px;
-    min-width: 300px;
+    width: 300px;
 }
 
-#message-legend {
-    /*min-height: 100px;*/
-    /*margin-top: 10px;*/
-    /*min-width: 500px;*/
-    /*text-align: left;*/
-    /*border: 1.5px solid white;*/
+#input-x-fieldset {
+    width: 300px;
 }
 
 .input-field {
@@ -42,7 +38,7 @@ hr {
     display: inline-block;
 }
 
-
+/* submit button and interaction styles */
 .button-submit:focus {
     color: antiquewhite;
 }
