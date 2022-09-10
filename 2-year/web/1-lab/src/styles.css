@@ -1,0 +1,89 @@
+body {
+    color: white;
+    background-color: #735184;
+    font-family: sans-serif;
+    align-items: center;
+}
+hr {
+    color: wheat;
+}
+#page-header {
+    text-align: center;
+}
+#canvas-container {
+    text-align: center;
+}
+#input-y, #input-r {
+    background-color: antiquewhite;
+    border-color: wheat;
+}
+#input-table {
+    margin-top: 50px;
+    margin-left: 50px;
+}
+
+#message-fieldset {
+    min-height: 20px;
+    margin-top: 10px;
+    min-width: 300px;
+}
+
+#message-legend {
+    /*min-height: 100px;*/
+    /*margin-top: 10px;*/
+    /*min-width: 500px;*/
+    /*text-align: left;*/
+    /*border: 1.5px solid white;*/
+}
+
+.input-field {
+    text-align: left;
+    vertical-align: top;
+    display: inline-block;
+}
+
+
+.button-submit:focus {
+    color: antiquewhite;
+}
+
+.button-submit {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid white;
+    box-sizing: border-box;
+    color: white;
+    cursor: pointer;
+    display: inline-flex;
+    fill: #000;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    padding: 0 17px;
+    text-align: center;
+    transition: all .3s;
+    touch-action: manipulation;
+    margin-top: 10px;
+    margin-left: 2px;
+    height: 30px;
+    width: 160px;
+}
+
+.button-submit:hover {
+    border-color: antiquewhite;
+    color: antiquewhite;
+    fill: antiquewhite;
+}
+
+.button-submit:active {
+    border-color: antiquewhite;
+    color: antiquewhite;
+    fill: antiquewhite;
+}
+
+@media (min-width: 768px) {
+    .button-submit {
+        min-width: 17px;
+    }
+}
