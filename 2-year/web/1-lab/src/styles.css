@@ -1,3 +1,4 @@
+/* -------- Page basic styles -------- */
 body {
     color: white;
     background-color: #735184;
@@ -13,54 +14,89 @@ hr {
 #canvas-container {
     text-align: center;
 }
-#input-y, #input-r {
-    background-color: antiquewhite;
-    border-color: wheat;
-}
-#input-table {
+
+
+/* -------- Frame table styles -------- */
+.frame-table {
     margin-top: 50px;
-    margin-left: 50px;
+}
+
+#frame-table td {
+    vertical-align: top;
+    text-align: center;
+    width: 33vw;
+    box-sizing: border-box;
+    /*height: min-content;*/
+    /*max-height: min-content;*/
+}
+
+
+/* -------- Input table styles -------- */
+#frame-table-input-row > td {
+    border: 3px solid cadetblue;
+    background-color: rgba(100, 100, 100, 0.5);
+    padding: 20px;
+    height: 400px;
+}
+
+#input-table-res-cell {
+    height: 2000px;
+    position: fixed;
+    overflow-y: scroll;
+}
+
+#input-table-x-cell td {
+    width: 10px;
+}
+
+#input-table-message-cell td {
+    width: 100px;
+}
+
+#input-table-res-cell td {
+    text-align: center;
 }
 
 #message-fieldset {
     min-height: 20px;
-    margin-top: 10px;
-    width: 300px;
+    width: 700px;
 }
 
-#input-x-fieldset {
-    width: 300px;
+.input-field legend {
+    text-align: center;
 }
 
+#input-y, #input-r {
+    width: 300px;
+    text-align: center;
+    background-color: antiquewhite;
+    border-color: wheat;
+}
+
+.input-field {
+    text-align: left;
+    display: inline-block;
+}
+
+
+/* -------- Results table styles -------- */
 #results-table {
-    margin-top: 10px;
-    margin-left: 50px;
-    border: 1px wheat solid;
+    margin-top: 8px;
+    text-align: center;
     border-collapse: collapse;
 }
 
 #results-table thead {
     font-weight: bold;
-}
-
-#results-table tbody {
-    border: 1px wheat solid;
-    padding: 6px;
+    height: min-content;
 }
 
 .results-row, .results-cell {
-    border: 1px wheat solid;
-    padding: 8px;
+    border: 1px white solid;
 }
 
 
-.input-field {
-    text-align: left;
-    vertical-align: top;
-    display: inline-block;
-}
-
-/* submit button and interaction styles */
+/* -------- Submit button and interaction styles -------- */
 .button-submit:focus {
     color: antiquewhite;
 }

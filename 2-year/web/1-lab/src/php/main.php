@@ -1,22 +1,27 @@
 <?php
 
     $pattern =
-    "
-    <tr>
-        <td>
-            <p>%d</p>
-        </td>
-        <td>
-            <p>%u</p>
-        </td>
-        <td>
-            <p>%u</p>
-        </td>
-        <td>
-            <p>%s</p>
-        </td>
-    </tr>
-    ";
+        "
+        <!DOCTYPE html>
+        <body>
+        <table id='results-table'>
+            <tr class='results-row'>
+                <td class='results-cell'>
+                    <p>%.2f</p>
+                </td>
+                <td class='results-cell'>
+                    <p>%.2f</p>
+                </td>
+                <td class='results-cell'>
+                    <p>%.2f</p>
+                </td>
+                <td class='results-cell'>
+                    <p>%s</p>
+                </td>
+            </tr>
+        </table>
+        </body>
+        ";
 
     function validate($x, $y, $r) {
         if (!(is_numeric($x) && is_numeric($y) && is_numeric($r))) {

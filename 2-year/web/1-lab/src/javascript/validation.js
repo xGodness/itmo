@@ -24,7 +24,7 @@ submit_button.addEventListener("click", function handleClick(event) {
     if (x == null) {
         append_message("[Warning] X parameter is not specified");
         exit = 1;
-    };
+    }
     if (y === "" || isNaN(y)) {
         input_y_field.value = "";
         append_message("[Warning] Y parameter must be valid number");
@@ -35,9 +35,11 @@ submit_button.addEventListener("click", function handleClick(event) {
         append_message("[Warning] R parameter must be valid number");
         exit = 1;
     }
+    
     x = parseFloat(x);
     y = parseFloat(y);
     r = parseFloat(r);
+    
     if (r <= 2 || r >= 5) {
         append_message("[Warning] R parameter must be between 2 and 5 (not inclusive)");
         exit = 1;
@@ -57,28 +59,28 @@ submit_button.addEventListener("click", function handleClick(event) {
     let url = "http://localhost:8888";
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
+    
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            let data = JSON.stringify({"x": x, "y": y, "r": r});
-            xhr.send(data);
+            let response_string = xhr.response;
+            let dom = (new DOMParser()).parseFromString(response_string, "application/xml");
+            let response_cells = dom.getElementsByTagName("td");
+            
+            let results_table = document.getElementById("results-table");
+            let new_row = results_table.insertRow(1);
+            new_row.className = "results-row";
+            for (let i = 0; i < response_cells.length; i++) {
+                let cell = new_row.insertCell();
+                cell.className = "results-cell";
+                let p = document.createElement("p");
+                p.innerText = response_cells[i].getElementsByTagName("p")[0].textContent;
+                cell.appendChild(p);
+            }
         }
     };
-    xhr.onload = function (e) {
-        console.log("AAAAAAAAAAAAA");
-        let response_json = xhr.response;
-        console.log(JSON.parse(response_json));
-        //
-        // const results_table = document.getElementById("results-table");
-        // let row = results_table.insertRow();
-        // let data_map = new Map(Object.entries(JSON.parse(response_json)));
-        // console.log(data_map);
-        // for (let i = 0; i < data_map.keys.length; i++) {
-        //     let cell = row.insertCell();
-        //     cell.innerText = data_map.keys()[i];
-        // }
-    };
 
-
+    let data = JSON.stringify({"x": x, "y": y, "r": r});
+    xhr.send(data);
 
 });
 

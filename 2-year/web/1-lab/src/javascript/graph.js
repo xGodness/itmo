@@ -18,12 +18,12 @@ function draw(new_r, point_x, point_y) {
     let center_y = center_h;
     let tick_x = w / 12;
     let tick_y = h / 12;
-
+    point_y = -point_y;
+    
     let r = 4;
     if (new_r != null) {
         r = new_r;
     }
-
     ctx.clearRect(0, 0, w, h);
 
 
@@ -89,5 +89,5 @@ function draw(new_r, point_x, point_y) {
     ctx.stroke();
     ctx.fill();
     ctx.closePath();
-
+    
 }
