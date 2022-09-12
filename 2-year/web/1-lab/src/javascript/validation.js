@@ -38,9 +38,13 @@ submit_button.addEventListener("click", function handleClick(event) {
     x = parseFloat(x);
     y = parseFloat(y);
     r = parseFloat(r);
-    if (r <= 0 || r > 6) {
-        append_message("[Warning] R parameter must be positive and not greater than 6");
-        return;
+    if (r <= 2 || r >= 5) {
+        append_message("[Warning] R parameter must be between 2 and 5 (not inclusive)");
+        exit = 1;
+    }
+    if (y <= -3 || y >= 3) {
+        append_message("[Warning] Y parameter must be between -3 and 3 (not inclusive)");
+        exit = 1;
     }
     if (exit) {
         return;
@@ -48,20 +52,33 @@ submit_button.addEventListener("click", function handleClick(event) {
 
     append_message("[Status] OK");
     draw(r, x, y);
+    
+    let xhr = new XMLHttpRequest();
+    let url = "http://localhost:8888";
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            let data = JSON.stringify({"x": x, "y": y, "r": r});
+            xhr.send(data);
+        }
+    };
+    xhr.onload = function (e) {
+        console.log("AAAAAAAAAAAAA");
+        let response_json = xhr.response;
+        console.log(JSON.parse(response_json));
+        //
+        // const results_table = document.getElementById("results-table");
+        // let row = results_table.insertRow();
+        // let data_map = new Map(Object.entries(JSON.parse(response_json)));
+        // console.log(data_map);
+        // for (let i = 0; i < data_map.keys.length; i++) {
+        //     let cell = row.insertCell();
+        //     cell.innerText = data_map.keys()[i];
+        // }
+    };
 
-    try {
-        const response = fetch("php/main.php", {
-            method: "post",
-            body: {
-                "x": x,
-                "y": y,
-                "r": r
-            }
-        });
-        append_message(response);
-    } catch (err) {
-        append_message(err);
-    }
+
 
 });
 

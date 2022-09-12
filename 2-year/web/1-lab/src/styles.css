@@ -32,6 +32,28 @@ hr {
     width: 300px;
 }
 
+#results-table {
+    margin-top: 10px;
+    margin-left: 50px;
+    border: 1px wheat solid;
+    border-collapse: collapse;
+}
+
+#results-table thead {
+    font-weight: bold;
+}
+
+#results-table tbody {
+    border: 1px wheat solid;
+    padding: 6px;
+}
+
+.results-row, .results-cell {
+    border: 1px wheat solid;
+    padding: 8px;
+}
+
+
 .input-field {
     text-align: left;
     vertical-align: top;
