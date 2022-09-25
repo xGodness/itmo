@@ -18,12 +18,18 @@
                 <td class='results-cell'>
                     <p>%s</p>
                 </td>
+                <td class='results-cell'>
+                    <p>%s</p>
+                </td>
             </tr>
         </table>
         </body>
         ";
 
     function validate($x, $y, $r) {
+        if (strlen($x) > 16 || strlen($y) > 16 || strlen($r) > 16) {
+            return false;
+        }
         if (!(is_numeric($x) && is_numeric($y) && is_numeric($r))) {
             return false;
         }
@@ -64,7 +70,9 @@
         else {
             $result = (check($x, $y, $r) ? "Hit" : "Miss");
         }
-        echo sprintf($pattern, $x, $y, $r, $result);
+        date_default_timezone_set("Europe/Moscow");
+
+        echo sprintf($pattern, $x, $y, $r, date("H:i:s"), $result);
     }
 
 ?>

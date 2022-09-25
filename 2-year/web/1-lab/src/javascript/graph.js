@@ -58,6 +58,9 @@ function draw(new_r, point_x, point_y) {
     ctx.beginPath();
     ctx.moveTo(0, center_h);
     ctx.lineTo(w, center_h);
+    ctx.lineTo(w - tick_x, center_h - tick_y / 4);
+    ctx.moveTo(w, center_h);
+    ctx.lineTo(w - tick_x, center_h + tick_y / 4);
     ctx.stroke();
     ctx.closePath();
 
@@ -65,6 +68,10 @@ function draw(new_r, point_x, point_y) {
     ctx.beginPath();
     ctx.moveTo(center_w, 0);
     ctx.lineTo(center_w, h);
+    ctx.moveTo(center_w, 0);
+    ctx.lineTo(center_w - tick_x / 4, tick_y);
+    ctx.moveTo(center_w, 0);
+    ctx.lineTo(center_w + tick_x / 4, tick_y);
     ctx.stroke();
     ctx.closePath();
 
@@ -80,7 +87,17 @@ function draw(new_r, point_x, point_y) {
     }
     ctx.stroke();
     ctx.closePath();
-
+    
+    // draw letters
+    ctx.beginPath();
+    ctx.font = "24px sans-serif";
+    ctx.fillStyle = black;
+    ctx.fillText("R", center_w + r * tick_x, center_y + tick_y / 1.5);
+    ctx.fillText("R", center_w - r * tick_x, center_y + tick_y / 1.5);
+    ctx.fillText("R", center_w + tick_x / 5, center_y + r * tick_y + 10);
+    ctx.fillText("R", center_w + tick_x / 5, center_y - r * tick_y + 10);
+    ctx.closePath();
+    
     // draw user point
     ctx.beginPath();
     ctx.strokeStyle = point_colour;

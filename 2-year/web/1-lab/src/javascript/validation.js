@@ -10,8 +10,8 @@ submit_button.addEventListener("click", function handleClick(event) {
         message_field.innerText += message + '\n';
     }
 
-    let y = input_y_field.value;
-    let r = input_r_field.value;
+    let y = input_y_field.value.replace(",", ".");
+    let r = input_r_field.value.replace(",", ".");
 
     let exit = 0;
     let x = null;
@@ -36,6 +36,22 @@ submit_button.addEventListener("click", function handleClick(event) {
         exit = 1;
     }
     
+    if (y.length > 16) {
+        input_y_field.value = "";
+        append_message("[Warning] Y parameter too long (max 16 chars)");
+        exit = 1;
+    }
+
+    if (r.length > 16) {
+        input_y_field.value = "";
+        append_message("[Warning] R parameter too long (max 16 chars)");
+        exit = 1;
+    }
+    
+    if (exit) {
+        return;
+    }
+    
     x = parseFloat(x);
     y = parseFloat(y);
     r = parseFloat(r);
@@ -56,7 +72,7 @@ submit_button.addEventListener("click", function handleClick(event) {
     draw(r, x, y);
     
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost:8888";
+    let url = "php/main.php";
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     
@@ -76,12 +92,18 @@ submit_button.addEventListener("click", function handleClick(event) {
                 p.innerText = response_cells[i].getElementsByTagName("p")[0].textContent;
                 cell.appendChild(p);
             }
+            
         }
     };
-
     let data = JSON.stringify({"x": x, "y": y, "r": r});
     xhr.send(data);
 
-});
+});;
 
+function handleClear() {
+    let rows = document.getElementsByClassName("results-row");
+    for (let i = rows.length - 1; i >= 0; i--) {
+        rows.item(i).remove();
+    }
+}
 

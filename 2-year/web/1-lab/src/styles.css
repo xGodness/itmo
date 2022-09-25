@@ -8,6 +8,9 @@ body {
 hr {
     color: wheat;
 }
+#info {
+    text-align: right;
+}
 #page-header {
     text-align: center;
 }
@@ -41,8 +44,6 @@ hr {
 
 #input-table-res-cell {
     height: 2000px;
-    position: fixed;
-    overflow-y: scroll;
 }
 
 #input-table-x-cell td {
@@ -59,7 +60,7 @@ hr {
 
 #message-fieldset {
     min-height: 20px;
-    width: 700px;
+    width: 300px;
 }
 
 .input-field legend {
