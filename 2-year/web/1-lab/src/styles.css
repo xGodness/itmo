@@ -29,8 +29,6 @@ hr {
     text-align: center;
     width: 33vw;
     box-sizing: border-box;
-    /*height: min-content;*/
-    /*max-height: min-content;*/
 }
 
 
@@ -98,11 +96,11 @@ hr {
 
 
 /* -------- Submit button and interaction styles -------- */
-.button-submit:focus {
+.button:focus {
     color: antiquewhite;
 }
 
-.button-submit {
+.button {
     align-items: center;
     background-color: rgba(0, 0, 0, 0);
     border: 2px solid white;
@@ -120,25 +118,26 @@ hr {
     transition: all .3s;
     touch-action: manipulation;
     margin-top: 10px;
+    margin-bottom: 10px;
     margin-left: 2px;
     height: 30px;
     width: 160px;
 }
 
-.button-submit:hover {
+.button:hover {
     border-color: antiquewhite;
     color: antiquewhite;
     fill: antiquewhite;
 }
 
-.button-submit:active {
+.button:active {
     border-color: antiquewhite;
     color: antiquewhite;
     fill: antiquewhite;
 }
 
 @media (min-width: 768px) {
-    .button-submit {
+    .button {
         min-width: 17px;
     }
 }

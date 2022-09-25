@@ -57,11 +57,11 @@ submit_button.addEventListener("click", function handleClick(event) {
     r = parseFloat(r);
     
     if (r <= 2 || r >= 5) {
-        append_message("[Warning] R parameter must be between 2 and 5 (not inclusive)");
+        append_message("[Warning] R parameter must be between 2 and 5 (exclusive)");
         exit = 1;
     }
     if (y <= -3 || y >= 3) {
-        append_message("[Warning] Y parameter must be between -3 and 3 (not inclusive)");
+        append_message("[Warning] Y parameter must be between -3 and 3 (exclusive)");
         exit = 1;
     }
     if (exit) {
@@ -72,7 +72,7 @@ submit_button.addEventListener("click", function handleClick(event) {
     draw(r, x, y);
     
     let xhr = new XMLHttpRequest();
-    let url = "php/main.php";
+    let url = "./php/main.php";
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     
