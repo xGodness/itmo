@@ -70,9 +70,12 @@
         else {
             $result = (check($x, $y, $r) ? "Hit" : "Miss");
         }
-        date_default_timezone_set("Europe/Moscow");
 
-        echo sprintf($pattern, $x, $y, $r, date("H:i:s"), $result);
+        $timezone_offset_minutes = $data["timezone_offset_minutes"];
+        $timezone_name = timezone_name_from_abbr("", $timezone_offset_minutes*60, false);
+        date_default_timezone_set($timezone_name);
+
+        echo sprintf($pattern, $x, $y, $r, date("d-m-Y H:i:s T"), $result);
     }
 
 ?>
