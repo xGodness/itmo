@@ -1,3 +1,9 @@
+window.onload = function () {
+    if (localStorage.length !== 0) {
+        loadTable();
+    }
+}
+
 const submit_button = document.getElementById("submit");
 submit_button.addEventListener("click", function handleClick(event) {
     const input_y_field = document.getElementById("input-y");
@@ -79,31 +85,45 @@ submit_button.addEventListener("click", function handleClick(event) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             let response_string = xhr.response;
-            let dom = (new DOMParser()).parseFromString(response_string, "application/xml");
-            let response_cells = dom.getElementsByTagName("td");
-            
-            let results_table = document.getElementById("results-table");
-            let new_row = results_table.insertRow(1);
-            new_row.className = "results-row";
-            for (let i = 0; i < response_cells.length; i++) {
-                let cell = new_row.insertCell();
-                cell.className = "results-cell";
-                let p = document.createElement("p");
-                p.innerText = response_cells[i].getElementsByTagName("p")[0].textContent;
-                cell.appendChild(p);
-            }
-            
+            addFromDomString(response_string);
+            localStorage.setItem(localStorage.length, response_string);
         }
     };
-    let data = JSON.stringify({"x": x, "y": y, "r": r});
+
+    let timezone_offset_minutes = new Date().getTimezoneOffset();
+    timezone_offset_minutes = timezone_offset_minutes === 0 ? 0 : -timezone_offset_minutes;
+    let data = JSON.stringify({"x": x, "y": y, "r": r, "timezone_offset_minutes": timezone_offset_minutes});
     xhr.send(data);
 
-});;
+});
 
 function handleClear() {
     let rows = document.getElementsByClassName("results-row");
     for (let i = rows.length - 1; i >= 0; i--) {
         rows.item(i).remove();
+    }
+    localStorage.clear();
+}
+
+function loadTable() {
+    for (let i = 0; i < localStorage.length; i++) {
+        let domString = localStorage.getItem(i);
+        addFromDomString(domString);
+    }
+}
+
+function addFromDomString(domString) {
+    let dom = (new DOMParser()).parseFromString(domString, "application/xml");
+    let response_cells = dom.getElementsByTagName("td");
+    let results_table = document.getElementById("results-table");
+    let new_row = results_table.insertRow(1);
+    new_row.className = "results-row";
+    for (let i = 0; i < response_cells.length; i++) {
+        let cell = new_row.insertCell();
+        cell.className = "results-cell";
+        let p = document.createElement("p");
+        p.innerText = response_cells[i].getElementsByTagName("p")[0].textContent;
+        cell.appendChild(p);
     }
 }
 
