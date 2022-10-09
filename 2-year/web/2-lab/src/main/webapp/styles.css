@@ -1,0 +1,143 @@
+/* -------- Page basic styles -------- */
+body {
+    color: white;
+    background-color: #735184;
+    font-family: sans-serif;
+    align-items: center;
+}
+hr {
+    color: wheat;
+}
+#info {
+    text-align: right;
+}
+#page-header {
+    text-align: center;
+}
+#canvas-container {
+    text-align: center;
+}
+
+
+/* -------- Frame table styles -------- */
+.frame-table {
+    margin-top: 50px;
+}
+
+#frame-table td {
+    vertical-align: top;
+    text-align: center;
+    width: 33vw;
+    box-sizing: border-box;
+}
+
+
+/* -------- Input table styles -------- */
+#frame-table-input-row > td {
+    border: 3px solid cadetblue;
+    background-color: rgba(100, 100, 100, 0.5);
+    padding: 20px;
+    height: 400px;
+}
+
+#input-table-res-cell {
+    height: 2000px;
+}
+
+#input-table-x-cell td {
+    width: 10px;
+}
+
+#input-table-message-cell td {
+    width: 100px;
+}
+
+#input-table-res-cell td {
+    text-align: center;
+}
+
+#message-fieldset {
+    min-height: 20px;
+    width: 300px;
+}
+
+.input-field legend {
+    text-align: center;
+}
+
+#input-y, #input-r {
+    width: 300px;
+    text-align: center;
+    background-color: antiquewhite;
+    border-color: wheat;
+}
+
+.input-field {
+    text-align: left;
+    display: inline-block;
+}
+
+
+/* -------- Results table styles -------- */
+#results-table {
+    margin-top: 8px;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+#results-table thead {
+    font-weight: bold;
+    height: min-content;
+}
+
+.results-row, .results-cell {
+    border: 1px white solid;
+}
+
+
+/* -------- Submit button and interaction styles -------- */
+.button:focus {
+    color: antiquewhite;
+}
+
+.button {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid white;
+    box-sizing: border-box;
+    color: white;
+    cursor: pointer;
+    display: inline-flex;
+    fill: #000;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    padding: 0 17px;
+    text-align: center;
+    transition: all .3s;
+    touch-action: manipulation;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 2px;
+    height: 30px;
+    width: 160px;
+}
+
+.button:hover {
+    border-color: antiquewhite;
+    color: antiquewhite;
+    fill: antiquewhite;
+}
+
+.button:active {
+    border-color: antiquewhite;
+    color: antiquewhite;
+    fill: antiquewhite;
+}
+
+@media (min-width: 768px) {
+    .button {
+        min-width: 17px;
+    }
+}
