@@ -12,6 +12,15 @@ public class Serializer {
     }
 
     public static ResultRow[] deserializeRows(String json) throws JsonProcessingException {
-        return mapper.readValue(json, ResultRow[].class);
+        ResultRow[] rows = mapper.readValue(json, ResultRow[].class);
+        ResultRow r;
+        int l = rows.length;
+        for (int i = 0; i < l / 2; i++) {
+            r = rows[i];
+            System.out.println(r);
+            rows[i] = rows[l - i - 1];
+            rows[l - i - 1] = r;
+        }
+        return rows;
     }
 }

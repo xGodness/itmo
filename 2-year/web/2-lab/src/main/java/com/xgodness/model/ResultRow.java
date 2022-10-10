@@ -1,5 +1,7 @@
 package com.xgodness.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class ResultRow {
     private float x;
     private float y;
@@ -35,5 +37,21 @@ public class ResultRow {
 
     public String getTime() {
         return time;
+    }
+
+    @JsonIgnore
+    public String getHitAsString() {
+        return hit ? "Hit" : "Miss";
+    }
+
+    @Override
+    public String toString() {
+        return "ResultRow{" +
+                "x=" + x +
+                ", y=" + y +
+                ", r=" + r +
+                ", hit=" + hit +
+                ", time='" + time + '\'' +
+                '}';
     }
 }

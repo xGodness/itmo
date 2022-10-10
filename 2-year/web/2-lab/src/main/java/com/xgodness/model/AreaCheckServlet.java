@@ -1,5 +1,6 @@
 package com.xgodness.model;
 
+import com.xgodness.util.DateTimeConverter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,20 +20,23 @@ public class AreaCheckServlet extends HttpServlet {
         Float x = getFloat(request.getParameter("x"));
         Float y = getFloat(request.getParameter("y"));
         Float r = getFloat(request.getParameter("r"));
+        Integer offset = getInteger(request.getParameter("timezone_offset"));
         if (x != null && y != null && r != null && r > 0) {
             ResultRow resultRow = new ResultRow(
                     x,
                     y,
                     r,
                     isHit(x, y, r),
-                    request.getParameter("time")
+                    DateTimeConverter.getDateTimeFromOffset(offset)
             );
+            String serializedRow = Serializer.serialize(resultRow);
             HttpSession session = request.getSession();
             String results = (String) session.getAttribute("results");
             results = (results == null)
                     ? "[%s]".formatted(Serializer.serialize(resultRow))
-                    : results.substring(0, results.length() - 1) + ",%s]".formatted(Serializer.serialize(resultRow));
+                    : results.substring(0, results.length() - 1) + ",%s]".formatted(serializedRow);
             session.setAttribute("results", results);
+            session.setAttribute("R", r);
 
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
@@ -46,10 +50,18 @@ public class AreaCheckServlet extends HttpServlet {
         }
     }
 
+    private Integer getInteger(String s) {
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+    }
+
     private boolean isHit(float x, float y, float r) {
         if (x >= 0) {
             if (y >= 0) {
-                return x * x + y * y <= r * r;
+                return x * x + y * y <= r * r / 4;
             }
             return false;
         }
