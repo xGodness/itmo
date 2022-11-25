@@ -1,0 +1,85 @@
+   <ui:composition
+           xmlns="http://www.w3.org/1999/xhtml"
+           xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+           xmlns:h="http://java.sun.com/jsf/html"
+           xmlns:p="http://primefaces.org/ui"
+           xmlns:f="http://java.sun.com/jsf/core">
+   <h:form id="submit-form">
+
+      <table id="input-table">
+         <tr>
+            <td id="input-table-x-cell">
+               <fieldset id="input-x-fieldset" class="input-field">
+                  <input type="hidden" id="input_timezone_offset" name="timezone_offset" value=""/>
+
+                  <legend><b>Parameter X:</b></legend>
+                  <p:selectOneRadio value="#{pointStorage.point.x}">
+                     <f:selectItems value="#{pointStorage.valuesX}"
+                                    var="xValue"
+                                    itemLabel="#{xValue}"
+                                    itemValue="#{xValue}"/>
+                  </p:selectOneRadio>
+               </fieldset>
+            </td>
+         </tr>
+
+         <tr>
+            <td>
+               <fieldset id="input-y-fieldset" class="input-field">
+                  <legend><b>Parameter Y:</b></legend>
+                  <h:outputText value="From -3 to 5"/><br/>
+                  <p:inputNumber id="input-y"
+                                 value="#{pointStorage.point.y}"
+                                 minValue="-3"
+                                 maxValue="5"
+                                 required="true"
+                                 requiredMessage="Select Y value"
+                                 decimalPlaces="2"
+                                 converterMessage="Invalid Y value"
+                                 validatorMessage="Y must be in [-3, 5]"
+                                 decimalSeparatorAlternative="."
+                                 placeholder="Y from -3 to 5"/>
+               </fieldset>
+            </td>
+         </tr>
+
+         <tr>
+            <td>
+               <fieldset id="input-r-fieldset" class="input-field">
+                  <legend><b>Parameter R:</b></legend>
+                  <h:outputText id="text-input-r" value="Set R to #{pointStorage.point.r}"/><b/>
+                  <h:inputHidden id="input-r" value="#{pointStorage.point.r}"/>
+                  <p:slider id="input-r-slider"
+                            for="input-r"
+                            display="text-input-r"
+                            minValue="1"
+                            maxValue="4"
+                            step="0.25" displayTemplate="Set R to {value}"/>
+               </fieldset>
+            </td>
+         </tr>
+
+         <tr>
+            <td>
+               <p:commandButton id="submit-button"
+                                value="Submit"
+                                action="#{pointStorage.add()}"
+                                type="submit" update="results">
+                  <f:ajax execute="submit-form"/>
+                  <h:outputScript library="javascript" name="graph.js"/>
+                  <ui:repeat value="#{pointStorage.pointList}" var="point">
+                     <h:outputScript>
+                        drawPoint("#{point.x}", "#{point.y}");
+                     </h:outputScript>
+                  </ui:repeat>
+               </p:commandButton>
+
+               <p:commandButton id="clear-button"
+                                value="Clear"
+                                action="#{pointStorage.clear()}"
+                                update="results"/>
+            </td>
+         </tr>
+      </table>
+   </h:form>
+</ui:composition>

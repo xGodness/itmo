@@ -1,0 +1,27 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core">
+
+   <h:dataTable id="results" value="${pointStorage.pointList}" var="point">
+      <h:column>
+         <f:facet name="header">X</f:facet>
+         ${point.x}
+      </h:column>
+      <h:column>
+         <f:facet name="header">Y</f:facet>
+         ${point.y}
+      </h:column>
+      <h:column>
+         <f:facet name="header">R</f:facet>
+         ${point.r}
+      </h:column>
+      <h:column>
+         <f:facet name="header">Hit</f:facet>
+         ${point.hit}
+      </h:column>
+   </h:dataTable>
+
+</ui:composition>
