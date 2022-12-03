@@ -13,7 +13,8 @@
                   <input type="hidden" id="input_timezone_offset" name="timezone_offset" value=""/>
 
                   <legend><b>Parameter X:</b></legend>
-                  <p:selectOneRadio value="#{pointStorage.point.x}">
+                  <p:selectOneRadio id="input-x"
+                                    value="#{pointStorage.point.x}">
                      <f:selectItems value="#{pointStorage.valuesX}"
                                     var="xValue"
                                     itemLabel="#{xValue}"
@@ -54,7 +55,14 @@
                             display="text-input-r"
                             minValue="1"
                             maxValue="4"
-                            step="0.25" displayTemplate="Set R to {value}"/>
+                            step="0.25"
+                            displayTemplate="Set R to {value}"
+                            onSlideEnd="initGraph(document.getElementById('submit-form:input-r').getAttribute('value'))"/>
+                  <h:outputScript>
+                     document.getElementById("submit-form:input-r").addEventListener('change', (event) => {
+                         localStorage.setItem("r", "#{pointStorage.point.r}")
+                     });
+                  </h:outputScript>
                </fieldset>
             </td>
          </tr>
@@ -64,14 +72,22 @@
                <p:commandButton id="submit-button"
                                 value="Submit"
                                 action="#{pointStorage.add()}"
-                                type="submit" update="results">
+                                type="submit"
+                                update="results" onclick="initGraph()">
                   <f:ajax execute="submit-form"/>
-                  <h:outputScript library="javascript" name="graph.js"/>
+
+                  <h:outputScript>
+                     localStorage.clear();
+                  </h:outputScript>
                   <ui:repeat value="#{pointStorage.pointList}" var="point">
                      <h:outputScript>
-                        drawPoint("#{point.x}", "#{point.y}");
+                        localStorage.setItem(localStorage.length.toString(), "#{point}");
+
                      </h:outputScript>
                   </ui:repeat>
+                  <h:outputScript library="javascript" name="graph.js">
+                     initGraph("#{sliderView.value}");
+                  </h:outputScript>
                </p:commandButton>
 
                <p:commandButton id="clear-button"
@@ -82,4 +98,7 @@
          </tr>
       </table>
    </h:form>
+   <h:outputScript library="javascript" name="graph.js">
+      initGraph("#{sliderView.value}");
+   </h:outputScript>
 </ui:composition>

@@ -14,5 +14,6 @@ public class SliderView {
 
     public void setValue(float value) {
         this.value = value;
+        System.out.printf("New R value: %f%n", value);
     }
 }

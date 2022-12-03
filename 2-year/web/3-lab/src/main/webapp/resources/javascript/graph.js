@@ -89,14 +89,14 @@ function drawAxes() {
     ctx.lineWidth = 2;
     // +Y axis
     ctx.beginPath();
-    ctx.moveTo(XCabs(0),YCabs(0));
-    ctx.lineTo(XCabs(0),YCabs(maxYabs()));
+    ctx.moveTo(XCabs(0), YCabs(0));
+    ctx.lineTo(XCabs(0), YCabs(maxYabs()));
     ctx.stroke();
 
     // -Y axis
     ctx.beginPath();
-    ctx.moveTo(XCabs(0),YCabs(0));
-    ctx.lineTo(XCabs(0),YCabs(minYabs()));
+    ctx.moveTo(XCabs(0), YCabs(0));
+    ctx.lineTo(XCabs(0), YCabs(minYabs()));
     ctx.stroke();
 
     // Y axis tick marks
@@ -173,19 +173,19 @@ function draw() {
 
     if (canvas.getContext) {
 
-        ctx = canvas.getContext('2d');
+        // ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, width, height);
 
         batmanCtx = new Path2D();
 
         ctx.fillStyle = 'magenta';
+        ctx.strokeStyle = 'black';
 
         r /= 5;
 
         renderHead(batmanCtx);
         renderBody(batmanCtx);
         renderWings(batmanCtx);
-        ctx.stroke();
         ctx.fill(batmanCtx);
 
         drawAxes();
@@ -206,24 +206,23 @@ function renderHead(batmanCtx) {
     batmanCtx.lineTo(XC(0.75), YC(3));
     batmanCtx.lineTo(XC(1), YC(1));
     batmanCtx.lineTo(XC(-1), YC(1));
-    ctx.stroke();
 }
 
 function renderBody(batmanCtx) {
     batmanCtx.moveTo(XC(-3.1), YC(2.711));
     for (let x = minX(); x <= maxX(); x += xStep) {
         let y = f5(x);
-        batmanCtx.lineTo(XC(x),YC(y));
+        batmanCtx.lineTo(XC(x), YC(y));
     }
 
     batmanCtx.lineTo(XC(4), YC(-2.462));
 
     for (let x = maxX(); x >= minX(); x -= xStep) {
         let y = f1(x);
-        batmanCtx.lineTo(XC(x),YC(y));
+        batmanCtx.lineTo(XC(x), YC(y));
     }
+
     batmanCtx.lineTo(XC(-3.1), YC(2.711));
-    ctx.stroke();
 }
 
 function renderWings(batmanCtx) {
@@ -255,20 +254,73 @@ function checkPoint(x, y) {
     return ctx.isPointInPath(batmanCtx, XCabs(x), YCabs(y));
 }
 
-function drawPoint(x, y) {
-    console.log(x, y);
-    ctx.fillStyle = checkPoint(x, y) ? "green" : "red";
-    ctx.arc(XC(x), YC(y), 4, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.fill();
+function drawPoints() {
+    for (let i = 0; i < localStorage.length; i++) {
+        let point = localStorage.getItem(i.toString());
+        ctx.beginPath();
+        ctx.arc(XCabs(point.x), YCabs(point.y), 4, 0, 2 * Math.PI, false);
+        ctx.fillStyle = checkPoint(point.x, point.y) ? "green" : "red";
+        ctx.fill();
+        ctx.closePath();
+        console.log("drew point: x=" + point.x + ", y=" + point.y + ", r=" + point.r);
+    }
 }
+
+// function getArgs() {
+//     let curX = document.getElementById("submit-form:input-x").value;
+//     let curY = document.getElementById("submit-form:input-y").value;
+//     let curR = document.getElementById("submit-form:input-r").value;
+//     return {"x": curX, "y": curY, "r": curR};
+// }
+//
+// function drawPoint(x, y, newR) {
+//     initGraph(newR);
+//
+//     if (!(x && y && newR)) {
+//         let args = getArgs();
+//         x = args.x;
+//         y = args.y;
+//         newR = args.r;
+//     }
+//
+//     ctx.beginPath();
+//     ctx.arc(XCabs(x), YCabs(y), 4, 0, 2 * Math.PI, false);
+//     ctx.fillStyle = checkPoint(x, y) ? "green" : "red";
+//     ctx.fill();
+//     ctx.closePath();
+//     console.log("end of draw point: x=" + x + ", y=" + y + ", r=" + newR);
+// }
 
 /* Initialization */
 
 // To be called when the page finishes loading:
 function initGraph(newR) {
-    console.log(newR);
-    if (newR === undefined || newR === null || newR === "null") r = 4;
-    else r = newR;
-    draw();
+    // if (localStorage.getItem("r")) {
+    //     r = localStorage.getItem("r");
+    //     console.log("R passed to init: " + r);
+    // } else {
+    //     r = 4;
+    //     console.log("none R was passed to init, set to 4");
+    // }
+    if (newR) {
+        r = newR;
+        console.log("new r value: " + r);
+    } else r = 4;
+
+    if (canvas === null || ctx === null) {
+        initVars();
+        draw();
+        drawPoints();
+    }
+}
+
+function initVars() {
+    if (canvas === null) {
+        canvas = document.getElementById('canvas');
+    }
+    if (ctx === null) {
+        ctx = canvas.getContext('2d');
+    }
+    width = canvas.width;
+    height = canvas.height;
 }
