@@ -1,0 +1,175 @@
+body {
+    color: white;
+    font-family: "URW Gothic", monospace;
+    align-items: center;
+    background: linear-gradient(to bottom, black, #333);
+    animation: gradient 1s infinite alternate;
+    background-size: 200% 200%;
+}
+
+a {
+    color: inherit;
+}
+
+#canvas {
+    box-shadow: 5px 5px 5px darkred;
+}
+
+#canvas:hover {
+    background-image: url("https://media.tenor.com/-pQEZGHeje0AAAAC/batman-superhero.gif");
+    background-repeat: repeat;
+    background-size: 20%;
+    opacity: 0.5;
+}
+
+#canvas {
+    background: radial-gradient(black, #333);
+}
+
+#index-href-container {
+    margin-top: 50px;
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    text-align: center;
+}
+
+/* -------- Page basic styles -------- */
+hr {
+    color: crimson;
+}
+
+#info, #page-header, #canvas-container {
+    text-align: center;
+}
+
+body .ui-slider {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: slategray;
+}
+
+body .ui-slider .ui-slider-range {
+    background-color: darkred;
+}
+
+body .ui-slider .ui-slider-handle {
+    background-color: #1b1b1b;
+    border-color: rgba(0, 0, 0, 0);
+}
+
+body .ui-slider .ui-slider-handle.ui-state-hover {
+    background-color: #1b1b1b;
+    border-color: white;
+}
+
+body .ui-button {
+    font-family: "URW Gothic", monospace;
+    background-color: #1b1b1b;
+    border-color: black;
+    margin: 5px;
+}
+
+body .ui-button.ui-state-hover {
+    background-color: darkred;
+    border-color: black;
+    margin: 5px;
+}
+
+body .ui-inputfield {
+    font-family: "URW Gothic", monospace;
+    background-color: #1b1b1b;
+    color: white;
+}
+
+body .ui-inputfield.ui-state-hover {
+    border-color: darkred;
+}
+
+
+/* -------- Frame table styles -------- */
+.frame-table {
+    margin-top: 50px;
+}
+
+#frame-table td {
+    vertical-align: top;
+    text-align: center;
+    width: 50vw;
+    box-sizing: border-box;
+}
+
+/* -------- Input table styles -------- */
+
+#frame-table-input-row > td {
+    border: 3px solid darkred;
+    background-color: rgba(100, 100, 100, 0.5);
+    padding: 20px;
+    height: 400px;
+}
+
+#input-table-res-cell {
+    height: 2000px;
+}
+
+#input-table-x-cell td {
+    width: 10px;
+}
+#input-x-table {
+    width: 100%;
+    text-align: center;
+}
+
+#input-table-message-cell td {
+    width: 100px;
+}
+
+#input-table-res-cell td {
+    text-align: center;
+}
+
+#message-fieldset {
+    min-height: 20px;
+    width: 300px;
+}
+
+.input-field legend {
+    text-align: center;
+}
+
+
+.input-field {
+    width: 300px;
+    text-align: center;
+    display: inline-block;
+    margin: 10px;
+}
+
+/* -------- Results table styles -------- */
+#results-table {
+    margin-top: 8px;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+#results-table thead {
+    font-weight: bold;
+    height: min-content;
+}
+
+#results-table td, tr, thead {
+    border: 2px white solid;
+    padding: 10px;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}

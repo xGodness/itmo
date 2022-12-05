@@ -69,6 +69,13 @@ function XCabs(x) {
 function YCabs(y) {
     return height - (y - minYabs()) / (maxYabs() - minYabs()) * height;
 }
+
+function inverseXC(x) {
+    return x * (maxXabs() - minXabs()) / width + minXabs();
+}
+function inverseYC(y) {
+    return (height - y) / height * (maxYabs() - minYabs()) + minYabs();
+}
 // ------------------------------------------------------------------------
 
 
@@ -155,15 +162,7 @@ let xStep = (maxX() - minX()) / width / 64;
 function f1(x) {
     return Math.abs(x / 2) - (3 * Math.sqrt(33) - 7) / 112 * x**2 - 3 + Math.sqrt(1 - (Math.abs(Math.abs(x) - 2) - 1)**2);
 }
-function f2(x) {
-    return 9 * Math.sqrt(Math.abs((Math.abs(x) - 1) * (Math.abs(x) - 0.75)) / ((1 - Math.abs(x)) * (Math.abs(x) - 0.75))) - 8 * Math.abs(x);
-}
-function f3(x) {
-    return 2.25 * Math.sqrt(Math.abs((x - 0.5) * (x + 0.5)) / ((0.5 - x) * (0.5 + x)));
-}
-function f4(x) {
-    return 3 * Math.abs(x) + 0.75 * Math.sqrt(Math.abs((Math.abs(x) - 0.75) * (Math.abs(x) - 0.5)) / ((0.75 - Math.abs(x)) * (Math.abs(x) - 0.5)));
-}
+
 function f5(x) {
     return 6 * Math.sqrt(10) / 7 + (1.5 - 0.5 * Math.abs(x)) * Math.sqrt(Math.abs(Math.abs(x) - 1) / (Math.abs(x) - 1)) - 6 * Math.sqrt(10) / 14 * Math.sqrt(4 - (Math.abs(x) - 1)**2);
 }
@@ -178,8 +177,11 @@ function draw() {
 
         batmanCtx = new Path2D();
 
-        ctx.fillStyle = 'magenta';
-        ctx.strokeStyle = 'black';
+        // ctx.fillStyle = 'magenta';
+        ctx.fillStyle = 'white';
+        // ctx.fillStyle = '#87ab08';
+
+        ctx.strokeStyle = 'crimson';
 
         r /= 5;
 
@@ -255,64 +257,74 @@ function checkPoint(x, y) {
 }
 
 function drawPoints() {
-    for (let i = 0; i < localStorage.length; i++) {
-        let point = localStorage.getItem(i.toString());
+    console.log("[INFO] drawing start...")
+    let rows = document.querySelectorAll("#results-table tr");
+    console.log(`[INFO] found ${rows.length} rows in table (including header)`);
+    let data;
+    let x, y;
+    for (let i = 1; i < rows.length; i++) {
+        data = rows[i].querySelectorAll("td");
+        x = parseFloat(data[0].innerHTML);
+        y = parseFloat(data[1].innerHTML);
+
+        if (isNaN(x) || isNaN(y)) return;
+
         ctx.beginPath();
-        ctx.arc(XCabs(point.x), YCabs(point.y), 4, 0, 2 * Math.PI, false);
-        ctx.fillStyle = checkPoint(point.x, point.y) ? "green" : "red";
+        ctx.arc(XCabs(x), YCabs(y), 4, 0, 2 * Math.PI, false);
+        ctx.fillStyle = checkPoint(x, y) ? "green" : "red";
         ctx.fill();
         ctx.closePath();
-        console.log("drew point: x=" + point.x + ", y=" + point.y + ", r=" + point.r);
+
+        console.log(`[INFO] drew point: x=${x}, y=${y}`);
     }
 }
 
-// function getArgs() {
-//     let curX = document.getElementById("submit-form:input-x").value;
-//     let curY = document.getElementById("submit-form:input-y").value;
-//     let curR = document.getElementById("submit-form:input-r").value;
-//     return {"x": curX, "y": curY, "r": curR};
-// }
-//
-// function drawPoint(x, y, newR) {
-//     initGraph(newR);
-//
-//     if (!(x && y && newR)) {
-//         let args = getArgs();
-//         x = args.x;
-//         y = args.y;
-//         newR = args.r;
-//     }
-//
-//     ctx.beginPath();
-//     ctx.arc(XCabs(x), YCabs(y), 4, 0, 2 * Math.PI, false);
-//     ctx.fillStyle = checkPoint(x, y) ? "green" : "red";
-//     ctx.fill();
-//     ctx.closePath();
-//     console.log("end of draw point: x=" + x + ", y=" + y + ", r=" + newR);
-// }
+function restoreDefaultXY() {
+    document.getElementById("radio-x-0").click();
+    document.getElementsByName("submit-form:input-y_hinput")[0].setAttribute("value", "0");
+    document.getElementById("submit-form:input-y_input").setAttribute("value", "0");
+    document.getElementById("submit-form:input-y").setAttribute("value", "0");
+}
+
+function processClick(event) {
+    let rect = canvas.getBoundingClientRect();
+
+    let x = inverseXC(event.clientX - rect.left);
+    let y = inverseYC(event.clientY - rect.top);
+
+    document.getElementsByName("submit-form:input-x_hinput")[0].setAttribute("value", x);
+    document.getElementsByName("submit-form:input-y_hinput")[0].setAttribute("value", y);
+
+    document.getElementById("submit-form:submit-button").click();
+    restoreDefaultXY();
+}
+
+function changeX(x) {
+    document.getElementsByName("submit-form:input-x_hinput")[0].setAttribute("value", x);
+}
+
+function getOffsetString() {
+    return (new Date()).getTimezoneOffset().toString();
+}
+
+function setOffsetAndHit() {
+    document.getElementById("submit-form:input-offset")
+        .setAttribute("value", getOffsetString());
+
+    let x = document.getElementsByName("submit-form:input-x_hinput")[0].getAttribute("value");
+    let y = document.getElementsByName("submit-form:input-y_hinput")[0].getAttribute("value");
+    let hit = checkPoint(x, y);
+
+    document.getElementById("submit-form:input-hit").setAttribute("value", hit);
+}
+
+function addCanvasListener() {
+    document.getElementById("canvas").addEventListener("click", (event) => {
+        processClick(event);
+    });
+}
 
 /* Initialization */
-
-// To be called when the page finishes loading:
-function initGraph(newR) {
-    // if (localStorage.getItem("r")) {
-    //     r = localStorage.getItem("r");
-    //     console.log("R passed to init: " + r);
-    // } else {
-    //     r = 4;
-    //     console.log("none R was passed to init, set to 4");
-    // }
-    if (newR) {
-        r = newR;
-        console.log("new r value: " + r);
-    } else r = 4;
-
-    if (canvas === null || ctx === null) {
-        initVars();
-        draw();
-        drawPoints();
-    }
-}
 
 function initVars() {
     if (canvas === null) {
@@ -323,4 +335,23 @@ function initVars() {
     }
     width = canvas.width;
     height = canvas.height;
+}
+
+function initGraph(newR) {
+    if (newR) {
+        r = newR;
+        console.log("new r value: " + r);
+    } else r = 4;
+
+    if (canvas === null || ctx === null) {
+        initVars();
+    }
+    draw();
+    drawPoints();
+}
+
+function init() {
+    initVars();
+    initGraph();
+    addCanvasListener();
 }

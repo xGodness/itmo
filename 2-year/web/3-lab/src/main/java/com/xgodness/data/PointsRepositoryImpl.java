@@ -12,19 +12,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static com.xgodness.data.StatementPattern.*;
-import static com.xgodness.data.StatementPattern.toSQLString;
 
-@Component("")
+@Component()
 public class PointsRepositoryImpl implements PointRepository {
 
-    @Value("${spring.datasource.url}")
-    private String url;
+//    @Value("${spring.datasource.url}")
+    private String url = "jdbc:postgresql://localhost:5432/postgres";
 
-    @Value("${spring.datasource.username}")
-    private String username;
+//    @Value("${spring.datasource.username}")
+    private String username = "postgres";
 
-    @Value("${spring.datasource.password}")
-    private String password;
+//    @Value("${spring.datasource.password}")
+    private String password = "gfhjkm";
 
     private Connection connection;
     private PreparedStatement statement;
@@ -33,6 +32,13 @@ public class PointsRepositoryImpl implements PointRepository {
     public PointsRepositoryImpl() { }
 
     public void init() throws SQLException {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.exit(-1);
+        }
+
         this.connection = DBManager.getConnection(url, username, password);
 
         for (StatementPattern pattern : new StatementPattern[] {
@@ -45,8 +51,8 @@ public class PointsRepositoryImpl implements PointRepository {
         isInitialized = true;
     }
 
-    public boolean save(Point point) throws SQLException {
-        if (!isInitialized) return false;
+    public void save(Point point) throws SQLException {
+        if (!isInitialized) return;
         if (point.getId() == null) {
             ResultSet resultSet = connection.createStatement().executeQuery(toSQLString(GET_NEXT_ID));
             resultSet.next();
@@ -57,17 +63,15 @@ public class PointsRepositoryImpl implements PointRepository {
         statement.setDouble(2, point.getY());
         statement.setDouble(3, point.getR());
         statement.setBoolean(4, point.isHit());
-        statement.setInt(5, point.getDateTimeOffset());
+        statement.setString(5, point.getDateTime());
         statement.setInt(6, point.getId());
 
         statement.executeUpdate();
-        return true;
     }
 
-    public boolean clear() throws SQLException {
-        if (!isInitialized) return false;
+    public void clear() throws SQLException {
+        if (!isInitialized) return;
         connection.createStatement().executeUpdate(toSQLString(CLEAR_TABLE));
-        return true;
     }
 
     public List<Point> findAll() throws SQLException {
@@ -97,7 +101,7 @@ public class PointsRepositoryImpl implements PointRepository {
                 rows.getDouble("y"),
                 rows.getDouble("r"),
                 rows.getBoolean("hit"),
-                rows.getInt("date_time_offset")
+                rows.getString("date_time")
         );
     }
 }

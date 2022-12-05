@@ -4,45 +4,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
 
-<h:head>
-    <meta name="author" content="xGodness"/>
-    <title>Assignment #3</title>
-    <f:metadata charset="UTF-8"/>
-    <h:outputStylesheet library="css" name="styles.css"/>
-</h:head>
+    <h:head>
+        <meta name="author" content="xGodness"/>
+        <title>♂♂♂♂♂</title>
+        <f:metadata charset="UTF-8"/>
+        <h:outputStylesheet library="css" name="index.css"/>
+    </h:head>
 
+    <h:body>
+        <ui:include src="templates/header.xhtml"/>
 
-
-
-<h:body>
-    <div id="page-header">
-        <h1>♂Ass♂ignment #3</h1>
-        <div id="info">
-            <h2>Gotovko Alexey | P32101 | var. fucking awful</h2>
+        <div id="main-href-container">
+            <a href="main.xhtml">Enter the ♂dungeon♂</a>
         </div>
-        <hr/>
-    </div>
 
-    <ui:include src="templates/graph.xhtml"/>
+        <ui:include src="templates/clock.html"/>
 
-    <table id="frame-table" class="frame-table">
-        <tr id="frame-table-input-row" class="frame-table-row">
-            <td>
-                <ui:include src="templates/inputs.xhtml"/>
-            </td>
-
-            <td>
-                <ui:include src="templates/table.xhtml"/>
-            </td>
-        </tr>
-    </table>
-</h:body>
-
-<h:outputScript>
-    initGraph();
-</h:outputScript>
+        <h:outputScript library="javascript" name="clock.js"/>
+    </h:body>
 </html>
-
