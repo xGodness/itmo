@@ -2,7 +2,7 @@ function showTime(){
     let date = new Date();
 
     let day = date.getDate();
-    let month = date.getMonth();
+    let month = date.getMonth() + 1;
     let year = date.getFullYear();
     let hours = date.getHours();
     let minutes = date.getMinutes();
@@ -15,10 +15,7 @@ function showTime(){
     seconds = (seconds < 10) ? "0" + seconds : seconds;
 
     let dateTime = `${hours}:${minutes}:${seconds} ${day}.${month}.${year}`;
-    let time = date.getDate() + "." + date.getMonth() + "." + date.getFullYear() + "\n" + hours + ":" + minutes + ":" + seconds;
     document.getElementById("clock-container").innerHTML = dateTime;
-    // document.getElementById("clock-container").innerText = dateTime;
-    // document.getElementById("clock-container").textContent = dateTime;
 
     setTimeout(showTime, 1000);
 
