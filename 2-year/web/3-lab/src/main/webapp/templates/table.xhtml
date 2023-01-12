@@ -2,10 +2,13 @@
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui"
         xmlns:f="http://java.sun.com/jsf/core">
 
-   <h:dataTable id="results" value="${pointStorage.pointList}" var="point">
+   <h:dataTable id="results-table" value="${pointStorage.pointList}" var="point">
+      <h:outputScript>
+         localStorage.setItem(localStorage.length.toString(), '${point}');
+         console.log("item set: " + "${point}");
+      </h:outputScript>
       <h:column>
          <f:facet name="header">X</f:facet>
          ${point.x}
@@ -21,6 +24,10 @@
       <h:column>
          <f:facet name="header">Hit</f:facet>
          ${point.hit}
+      </h:column>
+      <h:column>
+         <f:facet name="header">Time</f:facet>
+         ${point.dateTime}
       </h:column>
    </h:dataTable>
 

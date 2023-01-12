@@ -14,7 +14,7 @@ public enum StatementPattern {
             "y REAL NOT NULL, " +
             "r REAL CHECK (r <= 4 AND r >= 1) NOT NULL, " +
             "hit BOOLEAN NOT NULL, " +
-            "date_time_offset INTEGER NOT NULL" +
+            "date_time VARCHAR(255) NOT NULL" +
             ")"
     ),
     SAVE_POINT(
@@ -23,7 +23,7 @@ public enum StatementPattern {
                     "y, " +
                     "r, " +
                     "hit, " +
-                    "date_time_offset, " +
+                    "date_time, " +
                     "id" +
                     ") " +
                     "VALUES( ?, ?, ?, ?, ?, ? )"

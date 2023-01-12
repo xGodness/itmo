@@ -1,0 +1,37 @@
+body {
+    color: white;
+    font-family: "URW Gothic", monospace;
+    align-items: center;
+    background: #060606 url("https://i.ytimg.com/vi/A7ClQjEbYeg/maxresdefault.jpg") no-repeat center;
+    background-size: 120%;
+    background-position-x: center;
+    background-position-y: top;
+    background-clip: content-box;
+}
+
+a {
+    color: inherit;
+}
+
+#info, #page-header, #main-href-container {
+    text-align: center;
+}
+
+#main-href-container {
+    margin-top: 50px;
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.clock {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    font-size: 72px;
+    background: -webkit-linear-gradient(#eee, #333, crimson);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 7px;
+}
