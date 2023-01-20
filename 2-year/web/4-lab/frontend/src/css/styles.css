@@ -1,0 +1,61 @@
+body
+{
+    background: #28272a;
+}
+
+.results {
+    color: #fff;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px #1e9bff;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+}
+.results thead
+{
+    background: #1e9bff;
+    text-align: left;
+    font-weight: bold;
+}
+.results thead td {
+    text-align: left;
+}
+.results tbody tr
+{
+    text-align: left;
+}
+.results td, #results tr, #results th
+{
+    padding: 12px 15px;
+}
+.results tbody tr:nth-of-type(even)
+{
+    background: #164b72;
+}
+.results tbody tr:nth-of-type(even):hover
+{
+    background: #1d5e91;
+    font-weight: bold;
+}
+.results tbody tr:nth-of-type(odd):hover
+{
+    background: #353438;
+    font-weight: bold;
+}
+
+.analog-svg {
+    margin: 0 auto;
+    display: table;
+}
+.date {
+    font-size: large;
+    display: table;
+    margin: 0 auto;
+    background: transparent;
+    color: white;
+    padding: 1rem;
+}
+
+
+
+
+

@@ -1,0 +1,194 @@
+.login-div .form .submit, .register-div .form .submit, .add-div .form .add-button, .add-div .form .reset-button, .logout-button, .clear-button {
+  cursor: pointer;
+  background: #444;
+  color: #fff;
+  border-width: 0;
+  position: relative;
+  text-transform: uppercase;
+  font-size: 1.5em;
+  letter-spacing: 0.1em;
+  font-weight: 400;
+  padding: 10px 10px;
+  transition: 0.5s; }
+  .login-div .form .submit:enabled:hover, .register-div .form .submit:enabled:hover, .add-div .form .add-button:enabled:hover, .add-div .form .reset-button:enabled:hover, .logout-button:enabled:hover, .clear-button:enabled:hover {
+    letter-spacing: 0.25em; }
+    .login-div .form .submit:enabled:hover i::before, .register-div .form .submit:enabled:hover i::before, .add-div .form .add-button:enabled:hover i::before, .add-div .form .reset-button:enabled:hover i::before, .logout-button:enabled:hover i::before, .clear-button:enabled:hover i::before {
+      left: 20%;
+      width: 20px; }
+    .login-div .form .submit:enabled:hover i::after, .register-div .form .submit:enabled:hover i::after, .add-div .form .add-button:enabled:hover i::after, .add-div .form .reset-button:enabled:hover i::after, .logout-button:enabled:hover i::after, .clear-button:enabled:hover i::after {
+      width: 20px;
+      left: 80%; }
+  .login-div .form .submit::before, .register-div .form .submit::before, .add-div .form .add-button::before, .add-div .form .reset-button::before, .logout-button::before, .clear-button::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    background: #28272a; }
+  .login-div .form .submit span, .register-div .form .submit span, .add-div .form .add-button span, .add-div .form .reset-button span, .logout-button span, .clear-button span {
+    position: relative;
+    z-index: 1; }
+  .login-div .form .submit i, .register-div .form .submit i, .add-div .form .add-button i, .add-div .form .reset-button i, .logout-button i, .clear-button i {
+    position: absolute;
+    inset: 0;
+    display: block; }
+    .login-div .form .submit i::before, .register-div .form .submit i::before, .add-div .form .add-button i::before, .add-div .form .reset-button i::before, .logout-button i::before, .clear-button i::before {
+      content: "";
+      position: absolute;
+      top: -3.5px;
+      left: 80%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 5px;
+      background: #28272a;
+      transition: 0.5s; }
+    .login-div .form .submit i::after, .register-div .form .submit i::after, .add-div .form .add-button i::after, .add-div .form .reset-button i::after, .logout-button i::after, .clear-button i::after {
+      content: "";
+      position: absolute;
+      bottom: -3.5px;
+      left: 20%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 5px;
+      background: #28272a;
+      transition: 0.5s; }
+
+.header {
+  font-size: 1em;
+  margin: 5px; }
+
+.errors {
+  width: 300px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: 150px 0 0 -150px;
+  color: #FF1867;
+  padding: 5px;
+  background: rgba(255, 0, 82, 0.28);
+  border-radius: 10px; }
+
+.login-div, .register-div {
+  width: 300px;
+  height: 200px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -100px 0 0 -150px; }
+  .login-div .form, .register-div .form {
+    position: relative; }
+    .login-div .form .username-input, .login-div .form .password-input, .register-div .form .username-input, .register-div .form .password-input {
+      width: 100%;
+      margin-bottom: 5px; }
+    .login-div .form .submit, .register-div .form .submit {
+      width: 100%; }
+      .login-div .form .submit:enabled:hover, .register-div .form .submit:enabled:hover {
+        background: #1E9BFF;
+        color: #1E9BFF;
+        box-shadow: 0 0 35px #1E9BFF; }
+      .login-div .form .submit i::before, .register-div .form .submit i::before {
+        border: 2px solid #1E9BFF; }
+      .login-div .form .submit i::after, .register-div .form .submit i::after {
+        border: 2px solid #1E9BFF; }
+    .login-div .form .link, .register-div .form .link {
+      margin: 5px;
+      position: absolute;
+      right: 0; }
+
+.main-div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap; }
+
+.add-div {
+  box-shadow: 0 0 10px rgba(212, 212, 212, 0.59);
+  width: 400px;
+  height: 200px;
+  margin: 20px;
+  border: 2px solid rgba(212, 212, 212, 0.59);
+  border-radius: 20px; }
+  .add-div .form {
+    margin-top: 20px; }
+    .add-div .form .x-div, .add-div .form .y-div, .add-div .form .r-div {
+      position: relative;
+      width: 300px;
+      left: 50%;
+      margin: 5px 0 0 -150px; }
+      .add-div .form .x-div .x-input, .add-div .form .x-div .r-input, .add-div .form .y-div .x-input, .add-div .form .y-div .r-input, .add-div .form .r-div .x-input, .add-div .form .r-div .r-input {
+        width: 280px; }
+      .add-div .form .x-div .y-input, .add-div .form .y-div .y-input, .add-div .form .r-div .y-input {
+        margin: -10px 10px 10px 30px;
+        width: 260px; }
+    .add-div .form .add-button {
+      width: 120px;
+      font-size: 0.7em;
+      margin-left: 50px;
+      margin-top: 10px; }
+      .add-div .form .add-button:enabled:hover {
+        background: #6EFF3E;
+        color: #6EFF3E;
+        box-shadow: 0 0 35px #6EFF3E; }
+      .add-div .form .add-button i::before {
+        border: 2px solid #6EFF3E; }
+      .add-div .form .add-button i::after {
+        border: 2px solid #6EFF3E; }
+    .add-div .form .reset-button {
+      width: 120px;
+      font-size: 0.7em;
+      margin-left: 30px;
+      margin-top: 10px; }
+      .add-div .form .reset-button:enabled:hover {
+        background: #FF1867;
+        color: #FF1867;
+        box-shadow: 0 0 35px #FF1867; }
+      .add-div .form .reset-button i::before {
+        border: 2px solid #FF1867; }
+      .add-div .form .reset-button i::after {
+        border: 2px solid #FF1867; }
+
+.results {
+  width: 700px; }
+  .results .coords-col {
+    width: 20%; }
+  .results .radius-col {
+    width: 15%; }
+  .results .cur-time-col {
+    width: 25%; }
+  .results .ex-time.col {
+    width: 25%; }
+  .results .result-col {
+    width: 15%; }
+
+.logout-button {
+  float: right;
+  width: 150px;
+  margin: 10px;
+  font-size: 1em; }
+  .logout-button:enabled:hover {
+    background: #1E9BFF;
+    color: #1E9BFF;
+    box-shadow: 0 0 35px #1E9BFF; }
+  .logout-button i::before {
+    border: 2px solid #1E9BFF; }
+  .logout-button i::after {
+    border: 2px solid #1E9BFF; }
+
+.clear-button {
+  float: right;
+  width: 100px;
+  margin: 10px;
+  font-size: 1em; }
+  .clear-button:enabled:hover {
+    background: #1E9BFF;
+    color: #1E9BFF;
+    box-shadow: 0 0 35px #1E9BFF; }
+  .clear-button i::before {
+    border: 2px solid #1E9BFF; }
+  .clear-button i::after {
+    border: 2px solid #1E9BFF; }
+
+.app-div {
+  position: absolute;
+  left: 50%;
+  margin-left: -350px;
+  width: 700px; }
+
+/*# sourceMappingURL=tablet.css.map */

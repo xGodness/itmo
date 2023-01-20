@@ -1,0 +1,261 @@
+$blue: #1E9BFF;
+$green: #6EFF3E;
+$red: #FF1867;
+
+%button {
+  cursor: pointer;
+  background: #444;
+  color: #fff;
+  border-width: 0;
+  position: relative;
+  text-transform: uppercase;
+  font-size: 1.5em;
+  letter-spacing: 0.1em;
+  font-weight: 400;
+  padding: 10px 10px;
+  transition: 0.5s;
+  &:enabled:hover {
+    i {
+      &::before {
+        left: 20%;
+        width: 20px;
+      }
+      &::after {
+        width: 20px;
+        left: 80%;
+      }
+    }
+    letter-spacing: 0.25em;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    background: #28272a;
+  }
+  span {
+    position: relative;
+    z-index: 1;
+  }
+  i {
+    position: absolute;
+    inset: 0;
+    display: block;
+    &::before {
+      content: "";
+      position: absolute;
+      top: -3.5px;
+      left: 80%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 5px;
+      background: #28272a;
+      transition: 0.5s;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -3.5px;
+      left: 20%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 5px;
+      background: #28272a;
+      transition: 0.5s;
+    }
+  }
+}
+
+.header {
+  font-size: 1em;
+  margin: 5px;
+}
+
+.errors {
+  width: 300px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: 150px 0 0 -150px;
+  color: #FF1867;
+  padding: 5px;
+  background: rgba(255, 0, 82, 0.28);
+  border-radius: 10px;
+}
+
+.login-div, .register-div {
+  width: 300px;
+  height: 200px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -100px 0 0 -150px;
+  .form {
+    position: relative;
+    .username-input, .password-input {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+    .submit {
+      width: 100%;
+      @extend %button;
+      &:enabled:hover {
+        background: $blue;
+        color: $blue;
+        box-shadow: 0 0 35px $blue;
+      }
+      i {
+        &::before {
+          border: 2px solid $blue;
+        }
+        &::after {
+          border: 2px solid $blue;
+        }
+      }
+    }
+    .link {
+      margin: 5px;
+      position: absolute;
+      right: 0;
+    }
+  }
+}
+
+.main-div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.add-div {
+  box-shadow: 0 0 10px rgba(212, 212, 212, 0.59);
+  width: 400px;
+  height: 200px;
+  margin: 20px;
+  border: 2px solid rgba(212, 212, 212, 0.59);
+  border-radius: 20px;
+  .form {
+    margin-top: 20px;
+    .x-div, .y-div, .r-div {
+      position: relative;
+      width: 300px;
+      left: 50%;
+      margin: 5px 0 0 -150px;
+      .x-input, .r-input {
+        width: 280px;
+      }
+      .y-input {
+        margin: -10px 10px 10px 30px;
+        width: 260px;
+      }
+    }
+    .add-button {
+      @extend %button;
+      width: 120px;
+      font-size: 0.7em;
+      margin-left: 70px;
+      margin-top: 10px;
+      &:enabled:hover {
+        background: $green;
+        color: $green;
+        box-shadow: 0 0 35px $green;
+      }
+      i {
+        &::before {
+          border: 2px solid $green;
+        }
+        &::after {
+          border: 2px solid $green;
+        }
+      }
+    }
+    .reset-button {
+      @extend %button;
+      width: 120px;
+      font-size: 0.7em;
+      margin-left: 30px;
+      margin-top: 10px;
+      &:enabled:hover {
+        background: $red;
+        color: $red;
+        box-shadow: 0 0 35px $red;
+      }
+      i {
+        &::before {
+          border: 2px solid $red;
+        }
+        &::after {
+          border: 2px solid $red;
+        }
+      }
+    }
+  }
+}
+
+.results {
+  width: 800px;
+  .coords-col {
+    width: 20%;
+  }
+  .radius-col {
+    width: 15%;
+  }
+  .cur-time-col {
+    width: 25%;
+  }
+  .ex-time.col {
+    width: 25%;
+  }
+  .result-col {
+    width: 15%;
+  }
+}
+
+.logout-button {
+  float: right;
+  width: 150px;
+  margin: 10px;
+  font-size: 1em;
+  @extend %button;
+  &:enabled:hover {
+    background: $blue;
+    color: $blue;
+    box-shadow: 0 0 35px $blue;
+  }
+  i {
+    &::before {
+      border: 2px solid $blue;
+    }
+    &::after {
+      border: 2px solid $blue;
+    }
+  }
+}
+
+.clear-button {
+  float: right;
+  width: 100px;
+  margin: 10px;
+  font-size: 1em;
+  @extend %button;
+  &:enabled:hover {
+    background: $blue;
+    color: $blue;
+    box-shadow: 0 0 35px $blue;
+  }
+  i {
+    &::before {
+      border: 2px solid $blue;
+    }
+    &::after {
+      border: 2px solid $blue;
+    }
+  }
+}
+
+.app-div {
+  position: absolute;
+  left: 50%;
+  margin-left: -400px;
+  width: 800px;
+}
