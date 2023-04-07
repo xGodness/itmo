@@ -49,7 +49,7 @@ def validate_parameters(f, left, right, eps):
     try:
         if not has_single_root(f, left, right, eps):
             result["error_msg"] = "Function does not have exactly one root on the provided interval"
-    except ValueError:
+    except Exception:
         result["error_msg"] = "Function is not defined on the entire interval"
 
     return result

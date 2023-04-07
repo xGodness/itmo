@@ -1,6 +1,6 @@
-from numpy import arctan, sqrt, log, sin, cos
+from numpy import arctan, sqrt, log, sin, cos, log10
 
-log10 = 2.30258509299
+log_e_10 = 2.30258509299
 
 
 def get_derivative(func):
@@ -64,24 +64,24 @@ def func_2_dxdx(x):
 
 
 def phi_2(x, lmd):
-    return lmd * (x ** 5 + 21 * x ** 4 - 256 * x ** 3 + 4 * x ** 2 - 8 * x + 16) + x
+    return round(lmd * (round(x ** 5 + 21 * x ** 4 - 256 * x ** 3 + 4 * x ** 2 - 8 * x + 16, 7)), 7) + x
 
 
 def func_3(x):
-    return x ** log(x, 10) + x * cos(x)
+    return x ** log10(x) + x * cos(x)
 
 
 def func_3_dx(x):
-    return cos(x) + (2 * x ** (-1 + log(x) / log10) * log(x)) / log10 - x * sin(x)
+    return cos(x) + (2 * x ** (-1 + log(x) / log_e_10) * log(x)) / log_e_10 - x * sin(x)
 
 
 def func_3_dxdx(x):
-    return -x * cos(x) + (x ** (-2 + log(x) / log10) * (log(100) - 2 * log10 * log(x) + 4 * log(x) ** 2)) / (
-            log10 ** 2) - 2 * sin(x)
+    return -x * cos(x) + (x ** (-2 + log(x) / log_e_10) * (log(100) - 2 * log_e_10 * log(x) + 4 * log(x) ** 2)) / (
+            log_e_10 ** 2) - 2 * sin(x)
 
 
-def phi_3(lmd, x):
-    return lmd * (x ** log(x, 10) + x * cos(x)) + x
+def phi_3(x, lmd):
+    return lmd * (x ** log10(x) + x * cos(x)) + x
 
 
 def func_4(x):
