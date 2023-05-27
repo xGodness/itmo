@@ -1,0 +1,166 @@
+header {
+    padding-top: 100px;
+    font-weight: bolder;
+    font-size: xx-large;
+}
+
+#ihatefrontend {
+    color: rgba(0, 0, 0, 0);
+}
+
+#caption {
+    color: white;
+    font-family: "URW Gothic", monospace;
+    font-size: larger;
+    font-weight: bold;
+    text-align: center;
+    align-items: center;
+    vertical-align: center;
+}
+
+body {
+    color: white;
+    font-family: "URW Gothic", monospace;
+    align-items: center;
+    vertical-align: center;
+    text-align: center;
+    background: linear-gradient(90deg, rgba(105, 105, 105, 0.76), rgba(129, 57, 57, 0.72), rgba(23, 100, 129, 0.6), rgba(80, 87, 225, 0.6));
+    background-size: 200% 200%;
+    animation: gradient 15s normal infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+audio {
+    margin: 35px auto;
+    width: 20vw;
+}
+
+#frame {
+    display: table;
+    background: linear-gradient(90deg, rgba(105, 105, 105, 0.76), rgba(129, 57, 57, 0.72), rgba(23, 100, 129, 0.6), rgba(80, 87, 225, 0.6));
+}
+
+.container {
+    margin: 50px auto;
+    border-radius: 50px;
+    /*border: 1px solid white;*/
+    display: table;
+}
+
+.bar-container {
+    padding: 5px;
+    display: table-cell;
+}
+
+.progress-container {
+    padding: 10px;
+    margin-bottom: 100px;
+    /*border: 1px solid black;*/
+    /*width: 30vw;*/
+    /*height: 2vh;*/
+}
+
+.button {
+    background: linear-gradient(rgba(230, 100, 101, 0.97), #5057e1);
+    box-shadow: 3px 5px rgba(230, 100, 101, 0.56);
+    color: white;
+    font-family: "URW Gothic", monospace;
+    font-size: xx-large;
+    font-weight: 900;
+    padding: 5px;
+    margin: 20px;
+    border-radius: 50px;
+    width: 6vw;
+    height: 6vh;
+}
+
+#left-bars-container, #right-bars-container {
+    /*padding: 10px;*/
+    vertical-align: bottom;
+    padding-bottom: 170px;
+}
+
+#progress {
+    display: flex;
+    position: relative;
+    height: 6px;
+    width: 20vw;
+    background: #a3a3a3;
+    border-radius: 25px;
+    margin: 0 5px;
+    flex: 10;
+    flex-basis: 100%;
+    overflow: hidden;
+}
+
+#progress-filled {
+    height: 6px;
+    background: linear-gradient(#E66465FF, #9198e5);
+    flex: 0;
+    flex-basis: 0%;
+    border-radius: 25px;
+}
+
+.bar {
+    width: 100px;
+    height: 10px;
+    margin: 3px;
+    min-height: 10px;
+    /*border: 1px dashed;*/
+    background: linear-gradient(rgba(230, 100, 101, 0.97), #5057e1);
+    /*position: relative;*/
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#bar-1 {
+    margin-left: 40px;
+}
+
+#bar-10 {
+    margin-right: 40px;
+}
+
+.bar::after {
+    width: inherit;
+    height: 40%;
+    position: absolute;
+    bottom: -41%;
+    transform: scaleY(-1);
+    background-position: bottom;
+    background-size: cover;
+    opacity: 0.5;
+
+}
+
+.bar::before {
+    float: left;
+    content: "";
+    width: inherit;
+    height: 32%;
+    position: relative;
+    bottom: -100.8%;
+    background: linear-gradient(to bottom, #e66465, #9198e5, wheat);
+    opacity: 0.5;
+    z-index: 1;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#image {
+    position: relative;
+    border: 1px solid white;
+    box-shadow: 10px 8px 10px 5px #9198E5FF;
+}
+
