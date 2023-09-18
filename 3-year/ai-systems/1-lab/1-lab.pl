@@ -4,8 +4,10 @@ Hostile mobs will always attack player.
 */
 is_hostile(creeper).
 is_hostile(drowned).
+is_hostile(endermite).
 is_hostile(guardian).
 is_hostile(hoglin).
+is_hostile(piglin).
 is_hostile(pillager).
 is_hostile(skeleton).
 is_hostile(slime).
@@ -26,6 +28,7 @@ is_neutral(wolf).
 Define passive mobs.
 Passive mobs will never attack player.
 */
+is_passive(axolotl).
 is_passive(cat).
 is_passive(chicken).
 is_passive(fish).
