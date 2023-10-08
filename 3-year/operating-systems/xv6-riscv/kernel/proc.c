@@ -681,3 +681,75 @@ procdump(void)
     printf("\n");
   }
 }
+
+int
+dump(void)
+{
+    struct trapframe *tf = myproc()->trapframe;
+
+    for (uint8 i = 0; i < 10; i++)
+    {
+        printf("%d\n", *(uint32 *)((void *) tf + (22 + i) * sizeof(uint64)));
+    }
+
+    return 0;
+}
+
+int
+dump2(int pid, int register_num, uint64 *return_value)
+{
+    int exit_code = 0;
+    acquire(&wait_lock);
+
+    if (register_num < 2 || register_num > 11) {
+        exit_code = -3;
+        goto dump2_return;
+    }
+
+    struct proc *p;
+    uint8 flag = 0;
+    for (p = proc; p < &proc[NPROC]; p++)
+    {
+        acquire(&p->lock);
+        if (p->pid == pid) flag = 1;
+        release(&p->lock);
+
+        if (flag) break;
+    }
+    if (!flag)
+    {
+        exit_code = -2;
+        goto dump2_return;
+    }
+
+    struct proc *cur_p = myproc();
+    acquire(&cur_p->lock);
+    if (cur_p->pid != p->pid) {
+        acquire(&p->lock);
+        flag = 0;
+    }
+
+    if (!flag && cur_p->pid != p->parent->pid) {
+        release(&p->lock);
+        release(&cur_p->lock);
+        exit_code = -1;
+        goto dump2_return;
+    }
+    if (!flag) release(&cur_p->lock);
+
+    if (copyout(
+            cur_p->pagetable,
+            *return_value,
+            (char *) ((void *) p->trapframe + (20 + register_num) * sizeof(uint64)),
+            8
+    ) < 0)
+    {
+        exit_code = -4;
+    }
+    release(&p->lock);
+    goto dump2_return;
+
+dump2_return:
+    release(&wait_lock);
+    return exit_code;
+}
