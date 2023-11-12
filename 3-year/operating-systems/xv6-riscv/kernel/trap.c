@@ -138,7 +138,7 @@ kerneltrap()
   uint64 sepc = r_sepc();
   uint64 sstatus = r_sstatus();
   uint64 scause = r_scause();
-
+  
   if((sstatus & SSTATUS_SPP) == 0)
     panic("kerneltrap: not from supervisor mode");
   if(intr_get() != 0)
@@ -152,23 +152,12 @@ kerneltrap()
 
   // give up the CPU if this is a timer interrupt.
   if(which_dev == 2 && myproc() != 0 && myproc()->state == RUNNING)
-    trap_handler_proxy();
+    yield();
 
   // the yield() may have caused some traps to occur,
   // so restore trap registers for use by kernelvec.S's sepc instruction.
   w_sepc(sepc);
   w_sstatus(sstatus);
-}
-
-void trap_handler_proxy()
-{
-  // Uncomment to check. A lot of spam output will be generated.
-  /*
-  printf("\n##########\n"
-         "Trap was successfully proxied"
-         "\n##########\n");
-  */
-  yield();
 }
 
 void

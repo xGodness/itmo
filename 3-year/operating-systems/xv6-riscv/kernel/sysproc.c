@@ -109,3 +109,10 @@ sys_dump2(void)
 
     return(dump2(pid, register_num, &return_value));
 }
+
+
+uint64
+sys_procs_info(void)
+{
+    return(procs_info());
+}

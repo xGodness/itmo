@@ -109,6 +109,7 @@ void            procdump(void);
 int             dump(void);
 int             dump2(int pid, int register_num, uint64 *return_value);
 void            wakeup_without_lock(void *chan);
+int             procs_info(void);
 
 // swtch.S
 void            swtch(struct context*, struct context*);

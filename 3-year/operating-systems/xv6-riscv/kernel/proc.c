@@ -746,3 +746,14 @@ dump2_return:
     release(&wait_lock);
     return exit_code;
 }
+
+
+int
+procs_info(void)
+{
+    for(struct proc *p = proc_list.next; p != &proc_list; p = p->next) {
+        printf("-----\npid: %d\nprev_pid: %d\nnext_pid: %d\n", p->pid, p->prev->pid, p->next->pid);
+    }
+    printf("-----\n");
+    return 0;
+}

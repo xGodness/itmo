@@ -38,3 +38,4 @@ entry("sleep");
 entry("uptime");
 entry("dump");
 entry("dump2");
+entry("procs_info");
