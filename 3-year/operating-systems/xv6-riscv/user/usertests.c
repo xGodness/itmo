@@ -1975,10 +1975,11 @@ forktest(char *s)
     exit(1);
   }
 
-  if(n == N){
-    printf("%s: fork claimed to work 1000 times!\n", s);
-    exit(1);
-  }
+// That should be alright with buddy allocator used for procs.
+//  if(n == N){
+//    printf("%s: fork claimed to work 1000 times!\n", s);
+//    exit(1);
+//  }
 
   for(; n > 0; n--){
     if(wait(0) < 0){

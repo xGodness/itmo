@@ -55,4 +55,3 @@ main(void)
 {
     exit(pingpong());
 }
-

@@ -61,7 +61,7 @@ void            ramdiskrw(struct buf*);
 
 // kalloc.c
 void*           kalloc(void);
-void            kfree(void *);
+void            kfree(void *pa);
 void            kinit(void);
 
 // log.c
@@ -108,6 +108,7 @@ int             either_copyin(void *dst, int user_src, uint64 src, uint64 len);
 void            procdump(void);
 int             dump(void);
 int             dump2(int pid, int register_num, uint64 *return_value);
+void            wakeup_without_lock(void *chan);
 
 // swtch.S
 void            swtch(struct context*, struct context*);
@@ -186,6 +187,24 @@ void            plic_complete(int);
 void            virtio_disk_init(void);
 void            virtio_disk_rw(struct buf *, int);
 void            virtio_disk_intr(void);
+
+// buddy.c
+void *          bd_malloc(uint64 nbytes);
+void            bd_free(void *p);
+void            bd_init(void *base, void *end);
+
+// list.c
+struct list {
+    struct list *next;
+    struct list *prev;
+};
+
+void            lst_init(struct list*);
+void            lst_remove(struct list*);
+void            lst_push(struct list*, void *);
+void *          lst_pop(struct list*);
+void            lst_print(struct list*);
+int             lst_empty(struct list*);
 
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x)/sizeof((x)[0]))
