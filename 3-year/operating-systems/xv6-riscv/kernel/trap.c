@@ -67,7 +67,28 @@ usertrap(void)
     syscall();
   } else if((which_dev = devintr()) != 0){
     // ok
+  } else if (r_scause() == 15 || r_scause() == 13) {
+      // cow or lazy fault
+      uint64 va = r_stval();
+      uint64 page_addr = PGROUNDDOWN(va);
+
+      if (p->sz <= va || va < PGROUNDDOWN(p->trapframe->sp) / 10) {
+          goto kill_proc;
+      }
+      pte_t *pte = walk(p->pagetable, page_addr, 0);
+      if (pte == 0 || ((*pte & PTE_V) == 0)) {
+          if (lazy_alloc(p->pagetable, page_addr) != 0) {
+              goto kill_proc;
+          }
+      } else {
+          if ((*pte & PTE_COW) != 0) {
+              if (cow_copy(p->pagetable, page_addr) != 0) {
+                  goto kill_proc;
+              }
+          }
+      }
   } else {
+kill_proc:
     printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
     printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
     setkilled(p);
