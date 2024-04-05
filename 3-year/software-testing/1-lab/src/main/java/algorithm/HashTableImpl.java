@@ -37,8 +37,7 @@ public class HashTableImpl<T extends Comparable<T>> {
     }
 
     public boolean remove(T obj) {
-        int index = calculateIndex(obj);
-        List<T> bucket = list.get(index);
+        List<T> bucket = getBucket(obj);
 
         if (bucket == null) return false;
 
