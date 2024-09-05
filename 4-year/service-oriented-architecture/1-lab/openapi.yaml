@@ -1,0 +1,255 @@
+openapi: 3.0.3
+info:
+  title: SOA Lab - OpenAPI 3.0
+  description: |-
+    **OpenAPI specification for '_Service oriented architecture_' course lab at ITMO university.**
+  version: 1.0.0
+# servers:
+  # - url: http://TBD/api/v3
+
+
+tags:
+  - name: labworks
+    description: Everyting about lab works
+
+
+paths:
+  /labworks:
+    post:
+      tags:
+        - labworks
+      summary: Add new lab work to the collection
+      description: Add new lab work to the collection
+      operationId: addLabWork
+      parameters:
+        - $ref: '#/components/parameters/LabWorkName'
+        - $ref: '#/components/parameters/CoordinateX'
+        - $ref: '#/components/parameters/CoordinateY'
+        - $ref: '#/components/parameters/LabWorkMinimalPoint'
+        - $ref: '#/components/parameters/Difficulty'
+        - $ref: '#/components/parameters/DisciplineName'
+        - $ref: '#/components/parameters/DisciplineSelfStudyHours'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabWork'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+
+  /labworks/{labwork-id}:
+    get:
+      tags:
+        - labworks
+      summary: Get lab work by its ID
+      description: Get lab work by its ID
+      operationId: getLabWork
+      parameters:
+        - name: labwork-id
+          in: path
+          required: true
+          description: ID of the lab work to get
+          schema:
+            $ref: '/#/components/schemas/LabWork/properties/id'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabWork'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Lab work was not found
+    put:
+      tags:
+        - labworks
+      summary: Update lab work by its ID
+      description: Update lab work by its ID
+      operationId: updateLabWork
+      parameters:
+        - name: labwork-id
+          in: path
+          required: true
+          description: ID of the lab work to update
+          schema:
+            $ref: '/#/components/schemas/LabWork/properties/id'
+        - $ref: '#/components/parameters/LabWorkName'
+        - $ref: '#/components/parameters/CoordinateX'
+        - $ref: '#/components/parameters/CoordinateY'
+        - $ref: '#/components/parameters/LabWorkMinimalPoint'
+        - $ref: '#/components/parameters/Difficulty'
+        - $ref: '#/components/parameters/DisciplineName'
+        - $ref: '#/components/parameters/DisciplineSelfStudyHours'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabWork'
+        '400':
+          description: Invalid input (including invalid ID)
+        '404':
+          description: Lab work was not found
+        '422':
+          description: Validation exception
+    delete:
+      tags:
+        - labworks
+      summary: Delete lab work by its ID
+      description: Delete lab work by its ID
+      operationId: deleteLabWork
+      parameters:
+        - name: labwork-id
+          in: path
+          required: true
+          description: ID of the lab work to update
+          schema:
+            $ref: '/#/components/schemas/LabWork/properties/id'
+      responses:
+        '204':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Lab work was not found
+
+
+components:
+
+  schemas:
+    LabWork:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          nullable: false
+          minimum: 1
+          example: 1337
+          readOnly: true
+          description: "Value is unique. Generated automatically."
+        name:
+          type: string
+          nullable: false
+          minLength: 1
+          example: "SOA Lab 1"
+        coordinates:
+          allOf:
+            - $ref: '#/components/schemas/Coordinates'
+            - nullable: false
+        creationDate:
+          type: string
+          format: date
+          nullable: false
+          example: "2002-09-11"
+          readOnly: true
+          description: "Generated automatically. Format: YYYY-MM-DD."
+        minimalPoint:
+          type: number
+          format: double
+          nullable: false
+          minimum: 0
+          exclusiveMinimum: true
+          example: 12.23
+        difficulty:
+          allOf:
+            - $ref: '#/components/schemas/Difficulty'
+            - nullable: false
+        discipline:
+          allOf:
+            - $ref: '#/components/schemas/Discipline'
+            - nullable: false
+    Coordinates:
+      type: object
+      properties:
+        x:
+          type: integer
+          format: int64
+          nullable: false
+          minimum: -896
+          example: -13
+        y:
+          type: integer
+          format: int32
+          nullable: false
+          minimum: -528
+          example: 32
+    Difficulty:
+      type: string
+      enum:
+        - very_easy
+        - easy
+        - hard
+        - very_hard
+        - hopeless
+    Discipline:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: false
+          minLength: 1
+          example: "SOA"
+        selfStudyHours:
+          type: integer
+          format: int32
+          nullable: false
+          example: 256
+
+  parameters:
+    LabWorkName:
+      name: name
+      in: query
+      required: true
+      description: Lab work name
+      schema:
+          $ref: '#/components/schemas/LabWork/properties/name'
+    CoordinateX:
+      name: coordinate-x
+      in: query
+      required: true
+      description: X coordinate
+      schema:
+          $ref: '#/components/schemas/Coordinates/properties/x'
+    CoordinateY:
+      name: coordinate-y
+      in: query
+      required: true
+      description: Y coordinate
+      schema:
+          $ref: '#/components/schemas/Coordinates/properties/y'
+    LabWorkMinimalPoint:
+      name: minimal-point
+      in: query
+      required: true
+      description: Minimal point
+      schema:
+          $ref: '#/components/schemas/LabWork/properties/minimalPoint'
+    Difficulty:
+      name: difficulty
+      in: query
+      required: true
+      description: Lab work difficulty
+      schema:
+          $ref: '#/components/schemas/Difficulty'
+    DisciplineName:
+      name: discipline-name
+      in: query
+      required: true
+      description: Discipline name
+      schema:
+          $ref: '#/components/schemas/Discipline/properties/name'
+    DisciplineSelfStudyHours:
+      name: discipline-self-study-hours
+      in: query
+      required: true
+      description: Disciple self study hours
+      schema:
+          $ref: '#/components/schemas/Discipline/properties/selfStudyHours'
