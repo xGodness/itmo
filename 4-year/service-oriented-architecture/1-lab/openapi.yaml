@@ -5,13 +5,11 @@ info:
     **OpenAPI specification for '_Service oriented architecture_' course lab at ITMO university.**
   version: 1.0.0
 # servers:
-  # - url: http://TBD/api/v3
-
+# - url: http://TBD/api/v3
 
 tags:
   - name: labworks
     description: Everyting about lab works
-
 
 paths:
   /labworks:
@@ -22,31 +20,186 @@ paths:
       description: Add new lab work to the collection
       operationId: addLabWork
       parameters:
-        - $ref: '#/components/parameters/LabWorkName'
-        - $ref: '#/components/parameters/CoordinateX'
-        - $ref: '#/components/parameters/CoordinateY'
-        - $ref: '#/components/parameters/LabWorkMinimalPoint'
-        - $ref: '#/components/parameters/Difficulty'
-        - $ref: '#/components/parameters/DisciplineName'
-        - $ref: '#/components/parameters/DisciplineSelfStudyHours'
+        - $ref: "#/components/parameters/LabWorkName"
+        - $ref: "#/components/parameters/CoordinateX"
+        - $ref: "#/components/parameters/CoordinateY"
+        - $ref: "#/components/parameters/LabWorkMinimalPoint"
+        - $ref: "#/components/parameters/Difficulty"
+        - $ref: "#/components/parameters/DisciplineName"
+        - $ref: "#/components/parameters/DisciplineSelfStudyHours"
       responses:
-        '200':
+        "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LabWork'
-        '400':
+                $ref: "#/components/schemas/LabWork"
+        "400":
           description: Invalid input
-        '422':
+        "422":
           description: Validation exception
+    get:
+      tags:
+        - labworks
+      summary: Get all lab works (supports filtering and sorting)
+      description: Get all lab works (supports filtering and sorting)
+      operationId: getAllLabWorks
+      parameters:
+        - name: labwork-name-like
+          in: query
+          description: Display lab works with name containing supplied substring
+          required: false
+          schema:
+            $ref: "#/components/schemas/LabWork/properties/name"
+        - name: coordinate-x-min
+          in: query
+          description: Display lab works with X coordinate greater or equal to supplied value
+          required: false
+          schema:
+            $ref: "#/components/schemas/Coordinates/properties/x"
+        - name: coordinate-x-max
+          in: query
+          description: Display lab works with X coordinate less or equal to supplied value
+          required: false
+          schema:
+            $ref: "#/components/schemas/Coordinates/properties/x"
+        - name: coordinate-y-min
+          in: query
+          description: Display lab works with Y coordinate greater or equal to supplied value
+          required: false
+          schema:
+            $ref: "#/components/schemas/Coordinates/properties/y"
+        - name: coordinate-y-max
+          in: query
+          description: Display lab works with Y coordinate less or equal to supplied value
+          required: false
+          schema:
+            $ref: "#/components/schemas/Coordinates/properties/y"
+        - name: creation-date-before
+          in: query
+          description: Display lab works with creation date before supplied date
+          required: false
+          schema:
+            $ref: "#/components/schemas/LabWork/properties/creationDate"
+        - name: creation-date-after
+          in: query
+          description: Display lab works with creation date after supplied date
+          required: false
+          schema:
+            $ref: "#/components/schemas/LabWork/properties/creationDate"
+        - name: minimal-point-min
+          in: query
+          description: Display lab works with minimal point greater or equal to supplied value
+          required: false
+          schema:
+            $ref: "#/components/schemas/LabWork/properties/minimalPoint"
+        - name: minimal-point-max
+          in: query
+          description: Display lab works with minimal point less or equal to supplied value
+          required: false
+          schema:
+            $ref: "#/components/schemas/LabWork/properties/minimalPoint"
+        - name: difficulty-any-of
+          in: query
+          description: Display lab works with difficulty matching any of the supplied values
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/LabWork/properties/difficulty"
+        - name: discipline-name-like
+          in: query
+          description: Display lab works with discipline name containing supplied substring
+          required: false
+          schema:
+            $ref: "#/components/schemas/Discipline/properties/name"
+        - name: self-study-hours-min
+          in: query
+          description: Display lab works with discipline self study hours greater or equal to supplied value
+          required: false
+          schema:
+            $ref: "#/components/schemas/Discipline/properties/selfStudyHours"
+        - name: self-study-hours-max
+          in: query
+          description: Display lab works with discipline self study hours less or equal to supplied value
+          required: false
+          schema:
+            $ref: "#/components/schemas/Discipline/properties/selfStudyHours"
+        - name: page-size
+          in: query
+          description: Pagination page size
+          required: false
+          schema:
+            type: integer
+            format: int32
+            nullable: false
+            minimum: 1
+            example: 10
+        - name: page-number
+          in: query
+          description: Pagination page number
+          required: false
+          schema:
+            type: integer
+            format: int32
+            nullable: false
+            minimum: 1
+            example: 3
+        - name: sort-by
+          in: query
+          description: Result sorting order
+          required: false
+          schema:
+            type: string
+            enum:
+              - id
+              - name
+              - coordinate_x
+              - coordinate_y
+              - creation_date
+              - minimal_point
+              - difficulty
+              - discipline_name
+              - discipline_self_study_hours
+            example: coordinate_x
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LabWork"
+        "400":
+          description: Invalid input
+
+  /labworks/{discipline-name}:
+    delete:
+      tags:
+        - labworks
+      summary: Delete lab works by discipline name
+      description: Delete lab works by discipline name
+      operationId: deleteLabWorksByDisciplineName
+      parameters:
+        - name: discipline-name
+          in: path
+          required: true
+          description: Discipline name of the lab works to delete
+          schema:
+            $ref: "#/components/schemas/Discipline/properties/name"
+      responses:
+        "204":
+          description: Successful operation
+        "400":
+          description: Invalid discipline name supplied
 
   /labworks/{labwork-id}:
     get:
       tags:
         - labworks
-      summary: Get lab work by its ID
-      description: Get lab work by its ID
+      summary: Get lab work by ID
+      description: Get lab work by ID
       operationId: getLabWork
       parameters:
         - name: labwork-id
@@ -54,23 +207,23 @@ paths:
           required: true
           description: ID of the lab work to get
           schema:
-            $ref: '/#/components/schemas/LabWork/properties/id'
+            $ref: "/#/components/schemas/LabWork/properties/id"
       responses:
-        '200':
+        "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LabWork'
-        '400':
+                $ref: "#/components/schemas/LabWork"
+        "400":
           description: Invalid ID supplied
-        '404':
+        "404":
           description: Lab work was not found
     put:
       tags:
         - labworks
-      summary: Update lab work by its ID
-      description: Update lab work by its ID
+      summary: Update lab work by ID
+      description: Update lab work by ID
       operationId: updateLabWork
       parameters:
         - name: labwork-id
@@ -78,51 +231,124 @@ paths:
           required: true
           description: ID of the lab work to update
           schema:
-            $ref: '/#/components/schemas/LabWork/properties/id'
-        - $ref: '#/components/parameters/LabWorkName'
-        - $ref: '#/components/parameters/CoordinateX'
-        - $ref: '#/components/parameters/CoordinateY'
-        - $ref: '#/components/parameters/LabWorkMinimalPoint'
-        - $ref: '#/components/parameters/Difficulty'
-        - $ref: '#/components/parameters/DisciplineName'
-        - $ref: '#/components/parameters/DisciplineSelfStudyHours'
+            $ref: "/#/components/schemas/LabWork/properties/id"
+        - $ref: "#/components/parameters/LabWorkName"
+        - $ref: "#/components/parameters/CoordinateX"
+        - $ref: "#/components/parameters/CoordinateY"
+        - $ref: "#/components/parameters/LabWorkMinimalPoint"
+        - $ref: "#/components/parameters/Difficulty"
+        - $ref: "#/components/parameters/DisciplineName"
+        - $ref: "#/components/parameters/DisciplineSelfStudyHours"
       responses:
-        '200':
+        "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LabWork'
-        '400':
+                $ref: "#/components/schemas/LabWork"
+        "400":
           description: Invalid input (including invalid ID)
-        '404':
+        "404":
           description: Lab work was not found
-        '422':
+        "422":
           description: Validation exception
     delete:
       tags:
         - labworks
-      summary: Delete lab work by its ID
-      description: Delete lab work by its ID
-      operationId: deleteLabWork
+      summary: Delete lab work by ID
+      description: Delete lab work by ID
+      operationId: deleteLabWorkById
       parameters:
         - name: labwork-id
           in: path
           required: true
           description: ID of the lab work to update
           schema:
-            $ref: '/#/components/schemas/LabWork/properties/id'
+            $ref: "/#/components/schemas/LabWork/properties/id"
       responses:
-        '204':
+        "204":
           description: Successful operation
-        '400':
+        "400":
           description: Invalid ID supplied
-        '404':
+        "404":
           description: Lab work was not found
 
+  /labworks/sum-minimal-points:
+    get:
+      tags:
+        - labworks
+      summary: Calculate sum of the minimal point value
+      description: Calculate sum of the minimal point value of all lab works in the collection
+      operationId: sumMinimalPoints
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "/#/components/schemas/LabWork/properties/minimalPoint"
+
+  /bars/labwork/{labwork-id}/difficulty/increase/{steps-count}:
+    patch:
+      tags:
+        - bars
+      summary: Increase difficulty of the lab work
+      description: Increase difficulty of the lab work with ID `labwork-id` by `steps-count` steps
+      operationId: difficultyIncrease
+      parameters:
+        - name: labwork-id
+          in: path
+          required: true
+          description: ID of the lab work
+          schema:
+            $ref: "/#/components/schemas/LabWork/properties/id"
+        - name: steps-count
+          in: path
+          required: true
+          description: By how many steps to increase the difficulty
+          schema:
+            type: integer
+            format: int32
+            nullable: false
+            minimum: 1
+            example: 2
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LabWork"
+        "400":
+          description: Invalid input
+        "404":
+          description: Lab work was not found
+        "422":
+          description: Validation exception
+
+  /bars/discipline/{discipline-name}/make-hardcore:
+    post:
+      tags:
+        - bars
+      summary: Add 10 most difficult lab works to the specified discipline
+      description: Add 10 most difficult lab works to the specified discipline
+      operationId: disciplineMakeHardcore
+      parameters:
+        - name: discipline-name
+          in: path
+          required: true
+          description: Name of the discipline
+          schema:
+            $ref: "/#/components/schemas/Discipline/properties/name"
+      responses:
+        "204":
+          description: Successful operation
+        "400":
+          description: Invalid input
+        "404":
+          description: Discipline was not found
 
 components:
-
   schemas:
     LabWork:
       type: object
@@ -142,7 +368,7 @@ components:
           example: "SOA Lab 1"
         coordinates:
           allOf:
-            - $ref: '#/components/schemas/Coordinates'
+            - $ref: "#/components/schemas/Coordinates"
             - nullable: false
         creationDate:
           type: string
@@ -160,11 +386,11 @@ components:
           example: 12.23
         difficulty:
           allOf:
-            - $ref: '#/components/schemas/Difficulty'
+            - $ref: "#/components/schemas/Difficulty"
             - nullable: false
         discipline:
           allOf:
-            - $ref: '#/components/schemas/Discipline'
+            - $ref: "#/components/schemas/Discipline"
             - nullable: false
     Coordinates:
       type: object
@@ -189,6 +415,7 @@ components:
         - hard
         - very_hard
         - hopeless
+      example: hard
     Discipline:
       type: object
       properties:
@@ -210,46 +437,47 @@ components:
       required: true
       description: Lab work name
       schema:
-          $ref: '#/components/schemas/LabWork/properties/name'
+        $ref: "#/components/schemas/LabWork/properties/name"
     CoordinateX:
       name: coordinate-x
       in: query
       required: true
       description: X coordinate
       schema:
-          $ref: '#/components/schemas/Coordinates/properties/x'
+        $ref: "#/components/schemas/Coordinates/properties/x"
     CoordinateY:
       name: coordinate-y
       in: query
       required: true
       description: Y coordinate
       schema:
-          $ref: '#/components/schemas/Coordinates/properties/y'
+        $ref: "#/components/schemas/Coordinates/properties/y"
     LabWorkMinimalPoint:
       name: minimal-point
       in: query
       required: true
       description: Minimal point
       schema:
-          $ref: '#/components/schemas/LabWork/properties/minimalPoint'
+        $ref: "#/components/schemas/LabWork/properties/minimalPoint"
     Difficulty:
       name: difficulty
       in: query
       required: true
       description: Lab work difficulty
       schema:
-          $ref: '#/components/schemas/Difficulty'
+        $ref: "#/components/schemas/Difficulty"
     DisciplineName:
       name: discipline-name
       in: query
       required: true
       description: Discipline name
       schema:
-          $ref: '#/components/schemas/Discipline/properties/name'
+        $ref: "#/components/schemas/Discipline/properties/name"
     DisciplineSelfStudyHours:
       name: discipline-self-study-hours
       in: query
       required: true
       description: Disciple self study hours
       schema:
-          $ref: '#/components/schemas/Discipline/properties/selfStudyHours'
+        $ref: "#/components/schemas/Discipline/properties/selfStudyHours"
+
