@@ -1,0 +1,189 @@
+openapi: 3.0.3
+info:
+  title: SOA Lab - bars service - OpenAPI 3.0
+  description: |-
+    **OpenAPI specification for '_Service oriented architecture_' course lab at ITMO university.**
+  version: 1.0.0
+# servers:
+# - url: http://TBD/api/v3
+
+tags:
+  - name: bars
+    description: Additional operations
+
+paths:
+  /bars/labwork/{labwork-id}/difficulty/increase/{steps-count}:
+    patch:
+      tags:
+        - bars
+      summary: Increase difficulty of the lab work
+      description: Increase difficulty of the lab work with ID `labwork-id` by `steps-count` steps
+      operationId: difficultyIncrease
+      parameters:
+        - name: labwork-id
+          in: path
+          required: true
+          description: ID of the lab work
+          schema:
+            type: integer
+            format: int64
+            nullable: false
+            minimum: 1
+            example: 1337
+            readOnly: true
+            description: "Value is unique. Generated automatically."
+        - name: steps-count
+          in: path
+          required: true
+          description: By how many steps to increase the difficulty
+          schema:
+            type: integer
+            format: int32
+            nullable: false
+            minimum: 1
+            example: 2
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LabWork"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "404":
+          description: Lab work was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "422":
+          description: Validation exception
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+
+  /bars/discipline/{discipline-name}/make-hardcore:
+    post:
+      tags:
+        - bars
+      summary: Add 10 most difficult lab works to the specified discipline
+      description: Add 10 most difficult lab works to the specified discipline
+      operationId: disciplineMakeHardcore
+      parameters:
+        - name: discipline-name
+          in: path
+          required: true
+          description: Name of the discipline
+          schema:
+            type: string
+            nullable: false
+            minLength: 1
+            example: "SOA"
+      responses:
+        "204":
+          description: Successful operation
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "404":
+          description: Discipline was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+
+components:
+  schemas:
+    LabWork:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          nullable: false
+          minimum: 1
+          example: 1337
+          readOnly: true
+          description: "Value is unique. Generated automatically."
+        name:
+          type: string
+          nullable: false
+          minLength: 1
+          example: "SOA Lab 1"
+        coordinates:
+          allOf:
+            - $ref: "#/components/schemas/Coordinates"
+            - nullable: false
+        creationDate:
+          type: string
+          format: date
+          nullable: false
+          example: "2002-09-11"
+          readOnly: true
+          description: "Generated automatically. Format: YYYY-MM-DD."
+        minimalPoint:
+          type: number
+          format: double
+          nullable: false
+          minimum: 0
+          exclusiveMinimum: true
+          example: 12.23
+        difficulty:
+          allOf:
+            - $ref: "#/components/schemas/Difficulty"
+            - nullable: false
+        discipline:
+          allOf:
+            - $ref: "#/components/schemas/Discipline"
+            - nullable: false
+    Coordinates:
+      type: object
+      properties:
+        x:
+          type: integer
+          format: int64
+          nullable: false
+          minimum: -896
+          example: -13
+        y:
+          type: integer
+          format: int32
+          nullable: false
+          minimum: -528
+          example: 32
+    Difficulty:
+      type: string
+      enum:
+        - very_easy
+        - easy
+        - hard
+        - very_hard
+        - hopeless
+      example: hard
+    Discipline:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: false
+          minLength: 1
+          example: "SOA"
+        selfStudyHours:
+          type: integer
+          format: int32
+          nullable: false
+          example: 256
+    ErrorMessage:
+      type: string
+      nullable: false
+      minLength: 1
+      example: "You are a teapot"
