@@ -4,15 +4,15 @@ info:
   description: |-
     **OpenAPI specification for '_Service oriented architecture_' course lab at ITMO university.**
   version: 1.0.0
-# servers:
-# - url: http://TBD/api/v3
+servers:
+- url: http://TBD/api/v3/bars
 
 tags:
   - name: bars
     description: Additional operations
 
 paths:
-  /bars/labwork/{labwork-id}/difficulty/increase/{steps-count}:
+  /labworks/{labwork-id}/difficulty/increase/{steps-count}:
     patch:
       tags:
         - bars
@@ -54,21 +54,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorMessage"
+                $ref: "#/components/schemas/InvalidInputException"
         "404":
           description: Lab work was not found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorMessage"
+                $ref: "#/components/schemas/NotFoundException"
+        "414":
+          description: URI is too long
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/URITooLongException"
         "422":
           description: Validation exception
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorMessage"
+                $ref: "#/components/schemas/ValidationException"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerError"
+        "503":
+          description: External service is unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableError"
 
-  /bars/discipline/{discipline-name}/make-hardcore:
+  /disciplines/{discipline-name}/make-hardcore:
     post:
       tags:
         - bars
@@ -93,13 +111,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorMessage"
+                $ref: "#/components/schemas/InvalidInputException"
         "404":
           description: Discipline was not found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorMessage"
+                $ref: "#/components/schemas/NotFoundException"
+        "414":
+          description: URI is too long
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/URITooLongException"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerError"
+        "503":
+          description: External service is unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableError"
 
 components:
   schemas:
@@ -182,8 +218,82 @@ components:
           format: int32
           nullable: false
           example: 256
-    ErrorMessage:
-      type: string
-      nullable: false
-      minLength: 1
-      example: "You are a teapot"
+
+    InvalidInputException:
+      type: object
+      required:
+        - messages
+      properties:
+        messages:
+          type: array
+          nullable: false
+          items:
+            type: string
+            nullable: false
+            minLength: 1
+            example: "Cannot process input in {field_name}"
+    NotFoundException:
+      type: object
+      required:
+        - messages
+      properties:
+        messages:
+          type: array
+          nullable: false
+          items:
+            type: string
+            nullable: false
+            minLength: 1
+            example: "Object {object_name} was not found"
+    URITooLongException:
+      type: object
+      required:
+        - messages
+      properties:
+        messages:
+          type: array
+          nullable: false
+          items:
+            type: string
+            nullable: false
+            minLength: 1
+            example: "Request URI is too long"
+    ValidationException:
+      type: object
+      required:
+        - messages
+      properties:
+        messages:
+          type: array
+          nullable: false
+          items:
+            type: string
+            nullable: false
+            minLength: 1
+            example: "Value of {field_name} is invalid"
+    InternalServerError:
+      type: object
+      required:
+        - messages
+      properties:
+        messages:
+          type: array
+          nullable: false
+          items:
+            type: string
+            nullable: false
+            minLength: 1
+            example: "Something went wrong; internal server error"
+    ServiceUnavailableError:
+      type: object
+      required:
+        - messages
+      properties:
+        messages:
+          type: array
+          nullable: false
+          items:
+            type: string
+            nullable: false
+            minLength: 1
+            example: "External service is not available"
