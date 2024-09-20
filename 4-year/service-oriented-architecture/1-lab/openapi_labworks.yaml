@@ -326,7 +326,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/InternalServerError"
 
-  /disciplines/{discipline-name}/delete-all-labworks:
+  /disciplines/{discipline-name}/labworks:
     delete:
       tags:
         - disciplines
