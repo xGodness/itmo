@@ -95,9 +95,11 @@ paths:
         - name: sort
           in: query
           description: >+
-            Overall structure for each sort: `sort={parameter_name}`.\
+            Overall structure for each sort: 
+            `sort={parameter_name}` for **ascending** order and
+            `sort={parameter_name}[desc]` for **descending** order.\
 
-            **e.g.** `sort=id`.\
+            **e.g.** `sort=id[desc]`.\
 
             `parameter_name` can be one of:
               * `id`
@@ -118,7 +120,7 @@ paths:
             items:
               type: string
               nullable: false
-              example: "id"
+              example: "id[desc]"
         - name: limit
           in: query
           required: true
@@ -138,7 +140,7 @@ paths:
             type: integer
             format: int32
             nullable: false
-            minimum: 1
+            minimum: 0
             example: 50
       responses:
         "200":
@@ -146,9 +148,20 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/LabWork"
+                type: object
+                properties:
+                  elements:
+                    type: array
+                    nullable: false
+                    items:
+                      $ref: "#/components/schemas/LabWork"
+                  totalCount:
+                    type: integer
+                    format: int32
+                    nullable: false
+                    minimum: 0
+                    example: 30
+                      
         "400":
           description: Invalid input
           content:
@@ -379,6 +392,58 @@ paths:
                 nullable: true
                 minimum: 0
                 example: 86.64
+
+  /enums/{enum-name}:
+    get:
+      tags:
+        - enums
+      summary: Get all possible values for enum
+      operationId: getEnumValues
+      parameters:
+        - name: enum-name
+          in: path
+          required: true
+          description: Enum whose values to get. Case insentitive
+          schema:
+            type: string
+            nullable: false
+            minLength: 1
+            example: "difficulty"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  nullable: false
+                example: ["very_easy", "easy", "hard", "very_hard", "hopeless"]
+        "400":
+          description: Invalid enum name supplied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidInputException"
+        "404":
+          description: Enum was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundException"
+        "414":
+          description: URI is too long
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/URITooLongException"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerError"
 
 components:
   schemas:
