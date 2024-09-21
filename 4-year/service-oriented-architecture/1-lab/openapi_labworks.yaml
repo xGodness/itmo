@@ -387,11 +387,14 @@ paths:
           content:
             application/json:
               schema:
-                type: number
-                format: double
-                nullable: true
-                minimum: 0
-                example: 86.64
+                type: object
+                properties:
+                  value:
+                    type: number
+                    format: double
+                    nullable: true
+                    minimum: 0
+                    example: 86.64
 
   /enums/{enum-name}:
     get:
