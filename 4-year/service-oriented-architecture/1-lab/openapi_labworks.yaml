@@ -420,9 +420,14 @@ paths:
               schema:
                 type: array
                 items:
-                  type: string
-                  nullable: false
-                example: ["very_easy", "easy", "hard", "very_hard", "hopeless"]
+                  $ref: "#/components/schemas/DifficultyEnumRepresentation"
+                example: [
+                    {"value": "very_easy", "displayValue": "Very easy", "numericValue": 0},
+                    {"value": "easy", "displayValue": "Easy", "numericValue": 1},
+                    {"value": "hard", "displayValue": "Hard", "numericValue": 2},
+                    {"value": "very_hard", "displayValue": "Very hard", "numericValue": 3},
+                    {"value": "hopeless", "displayValue": "Hopeless", "numericValue": 4}
+                    ]
         "400":
           description: Invalid enum name supplied
           content:
@@ -516,15 +521,6 @@ components:
           nullable: false
           minimum: -528
           example: 32
-    Difficulty:
-      type: string
-      enum:
-        - very_easy
-        - easy
-        - hard
-        - very_hard
-        - hopeless
-      example: hard
     Discipline:
       required:
         - name
@@ -541,6 +537,33 @@ components:
           format: int32
           nullable: false
           example: 256
+    Difficulty:
+      type: string
+      enum:
+        - very_easy
+        - easy
+        - hard
+        - very_hard
+        - hopeless
+      example: very_hard
+
+    DifficultyEnumRepresentation:
+      type: object
+      nullable: false
+      properties:
+        value:
+          $ref: "#/components/schemas/Difficulty"
+        displayValue:
+          type: string
+          nullable: false
+          minLength: 1
+          example: "Very hard"
+        numericValue:
+          type: integer
+          format: int32
+          nullable: false
+          minimum: 0
+          example: 3
 
     InvalidInputException:
       type: object
