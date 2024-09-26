@@ -5,3 +5,20 @@ def factors_except_one(n) -> set[int]:
             result.extend([i, n // i])
     result.append(n)
     return set(result)
+
+
+def round_to_odd(a: float) -> int:
+    rounded = int(a)
+    return rounded if rounded % 2 == 1 else rounded + 1
+
+
+def rotate_bits_left(value: int, count: int, ttl_bits: int) -> int:
+    mask = 2 ** ttl_bits - 1
+    count %= ttl_bits
+    return ((value << count) | (value >> (ttl_bits - count))) & mask
+
+
+def rotate_bits_right(value: int, count: int, ttl_bits: int) -> int:
+    mask = 2 ** ttl_bits - 1
+    count %= ttl_bits
+    return ((value >> count) | (value << (ttl_bits - count))) & mask
