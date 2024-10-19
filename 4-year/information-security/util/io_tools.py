@@ -32,11 +32,11 @@ def read_two_int_keys() -> Tuple[int, int]:
     return key_1, key_2
 
 
-def read_str_keyword() -> str:
-    keyword = None
-    while keyword is None:
-        keyword = input("Supply keyword: ")
-        if len(keyword.strip()) == 0:
-            print("Keyword must not be empty string\n")
-            keyword = None
-    return keyword
+def read_str_param(param_name: str) -> str:
+    param = None
+    while param is None:
+        param = input(f"Supply {param_name}: ")
+        if len(param.strip()) == 0:
+            print(f"{param_name} must not be empty string\n")
+            param = None
+    return param

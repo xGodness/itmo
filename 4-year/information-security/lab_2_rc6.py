@@ -1,9 +1,9 @@
-from RC6Encryptor import RC6Encryptor
-from io_tools import read_str_keyword, read_file, write_to_file
+from encryptor.rc6_encryptor import RC6Encryptor
+from util.io_tools import read_str_param, read_file, write_to_file
 
 
 def main():
-    rc6_encryptor = RC6Encryptor(keyword=read_str_keyword())
+    rc6_encryptor = RC6Encryptor(keyword=read_str_param("keyword"))
 
     plaintext = read_file(read_format="rb")
 

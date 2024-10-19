@@ -1,5 +1,5 @@
-from BigramEncryptor import BigramEncryptor
-from io_tools import read_two_int_keys, read_file, write_to_file
+from encryptor.bigram_encryptor import BigramEncryptor
+from util.io_tools import read_two_int_keys, read_file, write_to_file
 
 
 def init_encryptor() -> BigramEncryptor:
