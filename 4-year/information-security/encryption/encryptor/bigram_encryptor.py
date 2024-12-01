@@ -1,4 +1,4 @@
-from util.math_utils import factors_except_one
+from encryption.util.math_utils import factors_except_one
 
 MAX_KEY_VALUE = 1_000_000
 

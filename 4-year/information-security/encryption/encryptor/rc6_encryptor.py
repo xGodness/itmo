@@ -2,7 +2,7 @@ import struct
 from math import e, log2
 from random import Random
 
-from util.math_utils import round_to_odd, rotate_bits_left, rotate_bits_right
+from encryption.util.math_utils import round_to_odd, rotate_bits_left, rotate_bits_right
 
 
 class RC6Encryptor:
