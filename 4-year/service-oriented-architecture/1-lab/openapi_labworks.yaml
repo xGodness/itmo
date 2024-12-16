@@ -4,12 +4,12 @@ info:
   description: |-
     **OpenAPI specification for '_Service oriented architecture_' course lab at ITMO university.**
   version: 1.0.0
-servers:
-  - url: http://TBD/api/v3
+# servers:
+# - url: http://TBD/api/v3
 
 tags:
   - name: labworks
-    description: Standard lab works operations
+    description: Everyting about lab works
 
 paths:
   /labworks:
@@ -17,14 +17,16 @@ paths:
       tags:
         - labworks
       summary: Add new lab work to the collection
+      description: Add new lab work to the collection
       operationId: addLabWork
-      requestBody:
-        required: true
-        description: Lab work to add to the collection
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LabWork'
+      parameters:
+        - $ref: "#/components/parameters/LabWorkName"
+        - $ref: "#/components/parameters/CoordinateX"
+        - $ref: "#/components/parameters/CoordinateY"
+        - $ref: "#/components/parameters/LabWorkMinimalPoint"
+        - $ref: "#/components/parameters/Difficulty"
+        - $ref: "#/components/parameters/DisciplineName"
+        - $ref: "#/components/parameters/DisciplineSelfStudyHours"
       responses:
         "200":
           description: Successful operation
@@ -37,111 +39,147 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InvalidInputException"
+                $ref: "#/components/schemas/ErrorMessage"
         "422":
           description: Validation exception
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ValidationException"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServerError"
+                $ref: "#/components/schemas/ErrorMessage"
     get:
       tags:
         - labworks
       summary: Get all lab works (supports filtering and sorting)
+      description: Get all lab works (supports filtering and sorting)
       operationId: getAllLabWorks
       parameters:
-        - name: filter
+        - name: labwork-name-like
           in: query
-          description: >+
-            Uses LHS brackets.\
-
-            Overall structure for each filter: `filter={parameter_name}[operator]={operand}`.\
-
-            **e.g.** `filter=id[gt]=1`.\
-
-            `parameter_name` can be one of:
-              * `id`
-              * `name`
-              * `coordinate_x`
-              * `coordinate_y`
-              * `creation_date`
-              * `minimal_point`
-              * `difficulty`
-              * `discipline_name`
-              * `discipline_self_study_hours`
-
-            `operator` can be one of:
-              * `lt`  -- _lower than_, **applicable to** `number`, `string`, `enum`, `date` types
-              * `lte` -- _lower than or equals to_, **applicable to** `number`, `string`, `enum`, `date` types
-              * `gt`  -- _greater than_, **applicable to** `number`, `string`, `enum`, `date` types
-              * `gte` -- _greater than or equals to_, **applicable to** `number`, `string`, `enum`, `date` types
-              * `eq`  -- _equals to_, **applicable to** `number`, `string`, `enum`, `date` types
-              * `gte` -- _not equals to_, **applicable to** `number`, `string`, `enum`, `date` types
-              * `~` -- _like_ or _contains substring_, **applicable to** `string` type
-
-              `operand` can be any value with type same as `parameter` type.
+          description: Display lab works with name containing supplied substring
+          required: false
+          schema:
+            $ref: "#/components/schemas/LabWork/properties/name"
+        - name: coordinate-x-min
+          in: query
+          description: Display lab works with X coordinate greater or equal to supplied value
+          required: false
+          schema:
+            $ref: "#/components/schemas/Coordinates/properties/x"
+        - name: coordinate-x-max
+          in: query
+          description: Display lab works with X coordinate less or equal to supplied value
+          required: false
+          schema:
+            $ref: "#/components/schemas/Coordinates/properties/x"
+        - name: coordinate-y-min
+          in: query
+          description: Display lab works with Y coordinate greater or equal to supplied value
+          required: false
+          schema:
+            $ref: "#/components/schemas/Coordinates/properties/y"
+        - name: coordinate-y-max
+          in: query
+          description: Display lab works with Y coordinate less or equal to supplied value
+          required: false
+          schema:
+            $ref: "#/components/schemas/Coordinates/properties/y"
+        - name: creation-date-before
+          in: query
+          description: Display lab works with creation date before supplied date
+          required: false
+          schema:
+            $ref: "#/components/schemas/LabWork/properties/creationDate"
+        - name: creation-date-after
+          in: query
+          description: Display lab works with creation date after supplied date
+          required: false
+          schema:
+            $ref: "#/components/schemas/LabWork/properties/creationDate"
+        - name: minimal-point-min
+          in: query
+          description: Display lab works with minimal point greater or equal to supplied value
+          required: false
+          schema:
+            $ref: "#/components/schemas/LabWork/properties/minimalPoint"
+        - name: minimal-point-max
+          in: query
+          description: Display lab works with minimal point less or equal to supplied value
+          required: false
+          schema:
+            $ref: "#/components/schemas/LabWork/properties/minimalPoint"
+        - name: difficulty-any-of
+          in: query
+          description: Display lab works with difficulty matching any of the supplied values
+          required: false
           schema:
             type: array
             items:
-              type: string
-              nullable: false
-              example: "id[gt]=1"
-        - name: sort
+              $ref: "#/components/schemas/LabWork/properties/difficulty"
+        - name: discipline-name-like
           in: query
-          description: >+
-            Overall structure for each sort: 
-            `sort={parameter_name}` for **ascending** order and
-            `sort={parameter_name}[desc]` for **descending** order.\
-
-            **e.g.** `sort=id[desc]`.\
-
-            `parameter_name` can be one of:
-              * `id`
-              * `name`
-              * `coordinate_x`
-              * `coordinate_y`
-              * `creation_date`
-              * `minimal_point`
-              * `difficulty`
-              * `discipline_name`
-              * `discipline_self_study_hours`
-
-            **Order of the sorts matters.**\
-
-            Thus, `sort=name&sort=id` first will sort all objects by their `name` values and only then by `id`.
+          description: Display lab works with discipline name containing supplied substring
+          required: false
           schema:
-            type: array
-            items:
-              type: string
-              nullable: false
-              example: "id[desc]"
-        - name: limit
+            $ref: "#/components/schemas/Discipline/properties/name"
+        - name: self-study-hours-min
           in: query
-          required: true
-          description: Pagination parameter. How many entries in overall result array to show.
+          description: Display lab works with discipline self study hours greater or equal to supplied value
+          required: false
+          schema:
+            $ref: "#/components/schemas/Discipline/properties/selfStudyHours"
+        - name: self-study-hours-max
+          in: query
+          description: Display lab works with discipline self study hours less or equal to supplied value
+          required: false
+          schema:
+            $ref: "#/components/schemas/Discipline/properties/selfStudyHours"
+        - name: page-size
+          in: query
+          description: Pagination page size
+          required: false
           schema:
             type: integer
             format: int32
             nullable: false
             minimum: 1
-            maximum: 100
             example: 10
-        - name: offset
+        - name: page-number
           in: query
-          required: true
-          description: Pagination parameter. How many entries in overall result array to skip from the beginning.
+          description: Pagination page number
+          required: false
           schema:
             type: integer
             format: int32
             nullable: false
-            minimum: 0
-            example: 50
+            minimum: 1
+            example: 3
+        - name: sort-by
+          in: query
+          description: Result sorting by
+          required: false
+          schema:
+            type: string
+            enum:
+              - id
+              - name
+              - coordinate_x
+              - coordinate_y
+              - creation_date
+              - minimal_point
+              - difficulty
+              - discipline_name
+              - discipline_self_study_hours
+            example: coordinate_x
+        - name: sort-order
+          in: query
+          description: Result sorting order
+          required: false
+          schema:
+            type: string
+            enum:
+              - ascending
+              - descending
+            example: descending
       responses:
         "200":
           description: Successful operation
@@ -152,40 +190,53 @@ paths:
                 properties:
                   elements:
                     type: array
-                    nullable: false
                     items:
                       $ref: "#/components/schemas/LabWork"
-                  totalCount:
+                  page_cnt:
                     type: integer
                     format: int32
                     nullable: false
-                    minimum: 0
-                    example: 30
-                      
+                    minimum: 1
+                    example: 69
+                
+                    
         "400":
           description: Invalid input
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InvalidInputException"
-        "414":
-          description: URI is too long
+                $ref: "#/components/schemas/ErrorMessage"
+
+  /labworks/{discipline-name}:
+    delete:
+      tags:
+        - labworks
+      summary: Delete lab works by discipline name
+      description: Delete lab works by discipline name
+      operationId: deleteLabWorksByDisciplineName
+      parameters:
+        - name: discipline-name
+          in: path
+          required: true
+          description: Discipline name of the lab works to delete
+          schema:
+            $ref: "#/components/schemas/Discipline/properties/name"
+      responses:
+        "204":
+          description: Successful operation
+        "400":
+          description: Invalid discipline name supplied
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/URITooLongException"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServerError"
+                $ref: "#/components/schemas/ErrorMessage"
 
   /labworks/{labwork-id}:
     get:
       tags:
         - labworks
       summary: Get lab work by ID
+      description: Get lab work by ID
       operationId: getLabWork
       parameters:
         - name: labwork-id
@@ -212,37 +263,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InvalidInputException"
+                $ref: "#/components/schemas/ErrorMessage"
         "404":
           description: Lab work was not found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/NotFoundException"
-        "414":
-          description: URI is too long
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/URITooLongException"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServerError"
+                $ref: "#/components/schemas/ErrorMessage"
     put:
       tags:
         - labworks
       summary: Update lab work by ID
+      description: Update lab work by ID
       operationId: updateLabWork
-      requestBody:
-        required: true
-        description: Lab work to put in the collection by ID
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LabWork'
       parameters:
         - name: labwork-id
           in: path
@@ -256,6 +289,13 @@ paths:
             example: 1337
             readOnly: true
             description: "Value is unique. Generated automatically."
+        - $ref: "#/components/parameters/LabWorkName"
+        - $ref: "#/components/parameters/CoordinateX"
+        - $ref: "#/components/parameters/CoordinateY"
+        - $ref: "#/components/parameters/LabWorkMinimalPoint"
+        - $ref: "#/components/parameters/Difficulty"
+        - $ref: "#/components/parameters/DisciplineName"
+        - $ref: "#/components/parameters/DisciplineSelfStudyHours"
       responses:
         "200":
           description: Successful operation
@@ -268,35 +308,24 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InvalidInputException"
+                $ref: "#/components/schemas/ErrorMessage"
         "404":
           description: Lab work was not found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/NotFoundException"
-        "414":
-          description: URI is too long
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/URITooLongException"
+                $ref: "#/components/schemas/ErrorMessage"
         "422":
           description: Validation exception
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ValidationException"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServerError"
+                $ref: "#/components/schemas/ErrorMessage"
     delete:
       tags:
         - labworks
       summary: Delete lab work by ID
+      description: Delete lab work by ID
       operationId: deleteLabWorkById
       parameters:
         - name: labwork-id
@@ -319,67 +348,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InvalidInputException"
+                $ref: "#/components/schemas/ErrorMessage"
         "404":
           description: Lab work was not found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/NotFoundException"
-        "414":
-          description: URI is too long
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/URITooLongException"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServerError"
+                $ref: "#/components/schemas/ErrorMessage"
 
-  /disciplines/{discipline-name}/labworks:
-    delete:
-      tags:
-        - disciplines
-      summary: Delete lab works by discipline name
-      operationId: deleteLabWorksByDisciplineName
-      parameters:
-        - name: discipline-name
-          in: path
-          required: true
-          description: Discipline name of the lab works to delete
-          schema:
-            $ref: "#/components/schemas/Discipline/properties/name"
-      responses:
-        "204":
-          description: Successful operation
-        "400":
-          description: Invalid discipline name supplied
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InvalidInputException"
-        "414":
-          description: URI is too long
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/URITooLongException"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServerError"
-
-  /minimal-points/sum:
+  /labworks/sum-minimal-points:
     get:
       tags:
-        - minimal-points
+        - labworks
       summary: Calculate sum of the minimal point value
-      description: Calculate sum of the minimal point value of all lab works in the collection. Returns `null` if collection is empty
+      description: Calculate sum of the minimal point value of all lab works in the collection
       operationId: sumMinimalPoints
       responses:
         "200":
@@ -387,82 +369,17 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  value:
-                    type: number
-                    format: double
-                    nullable: true
-                    minimum: 0
-                    example: 86.64
-
-  /enums/{enum-name}:
-    get:
-      tags:
-        - enums
-      summary: Get all possible values for enum
-      operationId: getEnumValues
-      parameters:
-        - name: enum-name
-          in: path
-          required: true
-          description: Enum whose values to get. Case insentitive
-          schema:
-            type: string
-            nullable: false
-            minLength: 1
-            example: "difficulty"
-      responses:
-        "200":
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/DifficultyEnumRepresentation"
-                example: [
-                    {"value": "very_easy", "displayValue": "Very easy", "numericValue": 0},
-                    {"value": "easy", "displayValue": "Easy", "numericValue": 1},
-                    {"value": "hard", "displayValue": "Hard", "numericValue": 2},
-                    {"value": "very_hard", "displayValue": "Very hard", "numericValue": 3},
-                    {"value": "hopeless", "displayValue": "Hopeless", "numericValue": 4}
-                    ]
-        "400":
-          description: Invalid enum name supplied
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InvalidInputException"
-        "404":
-          description: Enum was not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/NotFoundException"
-        "414":
-          description: URI is too long
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/URITooLongException"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServerError"
+                type: number
+                format: double
+                nullable: false
+                minimum: 0
+                exclusiveMinimum: true
+                example: 12.23
 
 components:
   schemas:
     LabWork:
       type: object
-      required:
-        - name
-        - coordinates
-        - minimalPoint
-        - difficulty
-        - discipline
       properties:
         id:
           type: integer
@@ -485,7 +402,7 @@ components:
           type: string
           format: date
           nullable: false
-          example: "2002-09-11"
+          example: "2001-09-11"
           readOnly: true
           description: "Generated automatically. Format: YYYY-MM-DD."
         minimalPoint:
@@ -505,9 +422,6 @@ components:
             - nullable: false
     Coordinates:
       type: object
-      required:
-        - x
-        - y
       properties:
         x:
           type: integer
@@ -521,10 +435,16 @@ components:
           nullable: false
           minimum: -528
           example: 32
+    Difficulty:
+      type: string
+      enum:
+        - very_easy
+        - easy
+        - hard
+        - very_hard
+        - hopeless
+      example: hard
     Discipline:
-      required:
-        - name
-        - selfStudyHours
       type: object
       properties:
         name:
@@ -537,99 +457,11 @@ components:
           format: int32
           nullable: false
           example: 256
-    Difficulty:
+    ErrorMessage:
       type: string
-      enum:
-        - very_easy
-        - easy
-        - hard
-        - very_hard
-        - hopeless
-      example: very_hard
-
-    DifficultyEnumRepresentation:
-      type: object
       nullable: false
-      properties:
-        value:
-          $ref: "#/components/schemas/Difficulty"
-        displayValue:
-          type: string
-          nullable: false
-          minLength: 1
-          example: "Very hard"
-        numericValue:
-          type: integer
-          format: int32
-          nullable: false
-          minimum: 0
-          example: 3
-
-    InvalidInputException:
-      type: object
-      required:
-        - messages
-      properties:
-        messages:
-          type: array
-          nullable: false
-          items:
-            type: string
-            nullable: false
-            minLength: 1
-            example: "Cannot process input in {field_name}"
-    NotFoundException:
-      type: object
-      required:
-        - messages
-      properties:
-        messages:
-          type: array
-          nullable: false
-          items:
-            type: string
-            nullable: false
-            minLength: 1
-            example: "Object {object_name} was not found"
-    URITooLongException:
-      type: object
-      required:
-        - messages
-      properties:
-        messages:
-          type: array
-          nullable: false
-          items:
-            type: string
-            nullable: false
-            minLength: 1
-            example: "Request URI is too long"
-    ValidationException:
-      type: object
-      required:
-        - messages
-      properties:
-        messages:
-          type: array
-          nullable: false
-          items:
-            type: string
-            nullable: false
-            minLength: 1
-            example: "Value of {field_name} is invalid"
-    InternalServerError:
-      type: object
-      required:
-        - messages
-      properties:
-        messages:
-          type: array
-          nullable: false
-          items:
-            type: string
-            nullable: false
-            minLength: 1
-            example: "Something went wrong; internal server error"
+      minLength: 1
+      example: "You are a teapot"
 
   parameters:
     LabWorkName:

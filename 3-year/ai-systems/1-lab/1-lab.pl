@@ -56,17 +56,20 @@ attacks(wolf, skeleton).
 /* 
 Define health points, damage per second and height (in blocks) for every mob.
 */
+mob_hp_dps_height(axolotl, 14, 0, 0.42).
 mob_hp_dps_height(bee, 10, 2, 0.6).
 mob_hp_dps_height(cat, 10, 0, 0.7).
 mob_hp_dps_height(chicken, 4, 0, 0.7).
 mob_hp_dps_height(creeper, 20, 43, 1.7). 
 mob_hp_dps_height(drowned, 20, 3, 1.95).
 mob_hp_dps_height(enderman, 40, 7, 2.9).
+mob_hp_dps_height(endermite, 8, 2, 0.3).
 mob_hp_dps_height(fish, 3, 0, 0.4).
 mob_hp_dps_height(fox, 10, 0, 0.6).
 mob_hp_dps_height(guardian, 30, 6, 0.85).
 mob_hp_dps_height(hoglin, 40, 6, 1.4).
 mob_hp_dps_height(pig, 10, 0, 0.9).
+mob_hp_dps_height(piglin, 16, 4, 1.9).
 mob_hp_dps_height(pillager, 24, 4, 1.95).
 mob_hp_dps_height(polar_bear, 30, 6, 1.4).
 mob_hp_dps_height(sheep, 8, 0, 1.3).
