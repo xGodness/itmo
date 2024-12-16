@@ -22,9 +22,11 @@ def print_msg(msg: str, newline=True):
     end = "\n" if newline else ''
     print(f"{ASCIIColors.OKBLUE}{msg}{ASCIIColors.ENDC}", end=end)
 
+
 def print_warn(msg: str, newline=True):
     end = "\n" if newline else ''
     print(f"{ASCIIColors.WARNING}{msg}{ASCIIColors.ENDC}", end=end)
+
 
 def print_err(msg: str):
     print(f"{ASCIIColors.FAIL}{msg}{ASCIIColors.ENDC}")

@@ -12,14 +12,14 @@ def plot_show(intervals):
 
 
 def hist_show(x_hist, y, h):
-    plt.bar(x_hist, y, width=h)
+    plt.bar(x_hist, y, width=h, fill=False)
     plt.xlabel("Value")
     plt.ylabel("Density frequency")
-    plt.show()
+    # plt.show()
 
 
 def polygon_show(x_polygon, y):
-    plt.plot(x_polygon, y)
+    plt.plot(x_polygon, y, c="red")
     plt.show()
 
 
@@ -77,7 +77,7 @@ def main():
     data_extreme_values = [data[0], data[-1]]
     data_range = data_extreme_values[1] - data_extreme_values[0]
 
-    series_variance = series_squared_expected_value - series_expected_value ** 2
+    series_variance = (series_squared_expected_value - series_expected_value ** 2) * n / (n - 1)
 
     series_standard_deviation = series_variance ** 0.5
 
@@ -121,8 +121,8 @@ def main():
             }
         )
 
-    x_hist = [i["floor"] for i in hist_data]
-    x_polygon = [i["pivot"] for i in hist_data]
+    x_hist = [i["floor"] + h / 2 for i in hist_data]
+    x_polygon = [i["floor"] + h / 2 for i in hist_data]
     y = [i["density_frequency"] for i in hist_data]
 
     hist_show(x_hist, y, h)

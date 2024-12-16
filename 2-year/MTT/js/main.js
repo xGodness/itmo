@@ -3,6 +3,8 @@ let context, analyser, src, arr;
 const bars = Array.from(document.getElementsByClassName("bar"))
 
 let audio = document.getElementById("audio");
+audio.crossOrigin = "anonymous";
+
 let progress = document.getElementById("progress");
 let progress_filled = document.getElementById("progress-filled");
 let img = document.getElementById("image");
@@ -11,11 +13,7 @@ let caption = document.getElementById("caption");
 const track_list = [
     {"src": "audio/VSN7_▽_Outcast.mp3", "img": "img/outcast.png", "name": "VSN7, ▽ – Outcast (Farewell Edit)"},
     {"src": "audio/Jinjer_Beggars_Dance.mp3", "img": "img/beggars_dance.png", "name": "Jinjer - Beggars Dance"},
-    {
-        "src": "audio/RADWIMPS_hyperventilation.mp3",
-        "img": "img/hyperventilation.png",
-        "name": "JRADWIMPS - Hyperventilation"
-    }
+    {"src": "audio/RADWIMPS_hyperventilation.mp3", "img": "img/hyperventilation.png", "name": "JRADWIMPS - Hyperventilation"}
 ]
 
 let track_id = 0;
@@ -26,6 +24,10 @@ let next_button = document.getElementById("next-button");
 
 window.onload = function () {
     set_track(0);
+    // fetch('https://crossorigin.me/https://google.com')
+    //     .then(response => response.json())
+    //     .then(data => console.log(data))
+    //     .catch(error => console.error(error));
 }
 
 function set_track(id) {
